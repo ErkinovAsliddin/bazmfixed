@@ -1,0 +1,11 @@
+[build]
+  command = "pnpm install --frozen-lockfile && pnpm --filter \"@workspace/bazm...\" run build"
+  publish = "artifacts/bazm/dist/public"
+
+# SPA fallback: any route that isn't a real file serves index.html so
+# client-side routing (wouter) handles it. Mirrors nginx's try_files
+# and the Vercel rewrite already set up for this app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

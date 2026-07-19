@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm --filter \"@workspace/bazm...\" run build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": "artifacts/bazm/dist/public",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

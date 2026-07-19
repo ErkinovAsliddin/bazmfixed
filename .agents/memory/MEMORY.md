@@ -1,0 +1,12 @@
+- [Orval Zod codegen version quirk](orval-zod-codegen.md) — `format: email`/`date`/`uuid` in openapi.yaml emits Zod v4-only `zod.email()` which breaks the v3 typecheck; omit format hints.
+- [Money columns store whole UZS](money-columns-uzs.md) — monetary fields are `bigint` mode:"number" holding whole UZS; safe for this domain, don't switch to mode:"bigint".
+- [Budget engine design intent](budget-engine-intent.md) — priorities↔weights must round-trip; upgrade ceiling comes from full catalog not chosen vendor; sufficiency tone amber-not-red; always recompute server-side.
+- [Orval param name clash](orval-param-clash.md) — query-param endpoints make the zod client and TS types both emit `*Params`; keep `override.zod.generate` param/query/header:false, validate params by hand.
+- [api-server no watch](api-server-no-watch.md) — dev build is a one-shot esbuild bundle; restart the API Server workflow after any backend change or routes serve stale/404.
+- [Sufficiency engine intent](sufficiency-engine-intent.md) — strict floors (no buffer), recommended ceils (+12%); only drinks scale with duration; never return 0 for a selected category.
+- [Orval array-response name clash](orval-array-response-clash.md) — don't name a component schema the same as an operation's response; orval derives `<OpId>Response` and collides. Inline array responses.
+- [Organizer→couple plan consent](organizer-plan-consent.md) — organizers link couples by budget-plan shareToken (consent), never by email; roles are self-assignable so consent, not role-gating, protects couple data.
+- [Cart merge-on-login race](cart-merge-on-login.md) — gate debounced server-cart pushes behind a merge-*complete* state, not a merge-started ref, or an early push wipes the server cart.
+- [Trilingual fonts](trilingual-fonts.md) — every font must ship a Cyrillic subset or Russian silently falls back; verify css2 per-family before choosing. Uzbek uses ASCII apostrophe.
+- [DB schema composite rebuild](db-composite-rebuild.md) — after editing lib/db schema, run `tsc -b lib/db` or api-server typechecks stale emitted .d.ts; import new column types from pg-core.
+- [Object storage (Bazm)](object-storage-bazm.md) — uploads use app session not Replit Auth; public serve MUST force safe content-type + nosniff + sandbox CSP (presigned PUT ignores content-type = stored-XSS); React 19 so no `$react` pnpm override; `@assets` needs tsconfig path.

@@ -1,0 +1,402 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border: var(--sidebar-primary-border);
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border: var(--sidebar-accent-border);
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* LIGHT MODE */
+:root {
+  --button-outline: rgba(0, 0, 0, 0.1);
+  --badge-outline: rgba(0, 0, 0, 0.05);
+
+  --opaque-button-border-intensity: -8;
+
+  --elevate-1: rgba(0, 0, 0, 0.03);
+  --elevate-2: rgba(0, 0, 0, 0.08);
+
+  --background: 38 55% 96%; /* #FBF7F0 ivory/cream */
+  --foreground: 152 68% 10%; /* dark green text */
+
+  --border: 40 20% 85%;
+  
+  --card: 40 50% 98%;
+  --card-foreground: 152 68% 10%;
+  --card-border: 40 20% 85%;
+
+  --sidebar: 38 55% 96%;
+  --sidebar-foreground: 152 68% 10%;
+  --sidebar-border: 40 20% 85%;
+  --sidebar-primary: 152 68% 19%;
+  --sidebar-primary-foreground: 38 55% 96%;
+  --sidebar-accent: 45 68% 47%;
+  --sidebar-accent-foreground: 152 68% 10%;
+  --sidebar-ring: 45 68% 47%;
+
+  --popover: 40 50% 98%;
+  --popover-foreground: 152 68% 10%;
+  --popover-border: 40 20% 85%;
+
+  --primary: 152 68% 19%; /* #0F5132 emerald green */
+  --primary-foreground: 38 55% 96%;
+
+  --secondary: 355 54% 81%; /* #E8B4B8 blush rose */
+  --secondary-foreground: 152 68% 19%;
+
+  --muted: 40 20% 90%;
+  --muted-foreground: 152 22% 37%; /* AA: 4.98:1 on ivory background */
+
+  --accent: 45 68% 47%; /* #C9A227 warm gold */
+  --accent-foreground: 152 68% 10%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 38 55% 96%;
+
+  --input: 40 20% 85%;
+  --ring: 45 68% 47%;
+  
+  --chart-1: 152 68% 19%;
+  --chart-2: 45 68% 47%;
+  --chart-3: 355 54% 81%;
+  --chart-4: 38 55% 70%;
+  --chart-5: 152 68% 30%;
+
+  --app-font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+  --app-font-serif: 'Playfair Display', Georgia, serif;
+  --app-font-mono: Menlo, monospace;
+  --radius: 0.75rem; 
+  
+  --shadow-2xs: 0px 2px 0px 0px hsl(45 68% 47% / 0.1);
+  --shadow-xs: 0px 2px 0px 0px hsl(45 68% 47% / 0.1);
+  --shadow-sm:
+    0px 2px 0px 0px hsl(45 68% 47% / 0.1),
+    0px 1px 2px -1px hsl(45 68% 47% / 0.1);
+  --shadow:
+    0px 2px 0px 0px hsl(45 68% 47% / 0.1),
+    0px 1px 2px -1px hsl(45 68% 47% / 0.1);
+  --shadow-md:
+    0px 2px 0px 0px hsl(45 68% 47% / 0.1),
+    0px 2px 4px -1px hsl(45 68% 47% / 0.1);
+  --shadow-lg:
+    0px 2px 0px 0px hsl(45 68% 47% / 0.1),
+    0px 4px 6px -1px hsl(45 68% 47% / 0.1);
+  --shadow-xl:
+    0px 2px 0px 0px hsl(45 68% 47% / 0.1),
+    0px 8px 10px -1px hsl(45 68% 47% / 0.1);
+  --shadow-2xl: 0px 2px 0px 0px hsl(45 68% 47% / 0.1);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+}
+
+.dark {
+  --button-outline: rgba(255, 255, 255, 0.1);
+  --badge-outline: rgba(255, 255, 255, 0.05);
+
+  --opaque-button-border-intensity: 9;
+
+  --elevate-1: rgba(255, 255, 255, 0.04);
+  --elevate-2: rgba(255, 255, 255, 0.09);
+
+  --background: 152 68% 10%; 
+  --foreground: 38 55% 96%;
+
+  --border: 152 40% 20%;
+
+  --card: 152 50% 12%;
+  --card-foreground: 38 55% 96%;
+  --card-border: 152 40% 20%;
+
+  --sidebar: 152 68% 10%;
+  --sidebar-foreground: 38 55% 96%;
+  --sidebar-border: 152 40% 20%;
+  --sidebar-primary: 45 68% 47%;
+  --sidebar-primary-foreground: 152 68% 10%;
+  --sidebar-accent: 45 68% 47%;
+  --sidebar-accent-foreground: 152 68% 10%;
+  --sidebar-ring: 45 68% 47%;
+
+  --popover: 152 50% 12%;
+  --popover-foreground: 38 55% 96%;
+  --popover-border: 152 40% 20%;
+
+  --primary: 45 68% 47%; 
+  --primary-foreground: 152 68% 10%;
+
+  --secondary: 355 54% 60%;
+  --secondary-foreground: 38 55% 96%;
+
+  --muted: 152 40% 20%;
+  --muted-foreground: 38 30% 80%;
+
+  --accent: 45 68% 47%;
+  --accent-foreground: 152 68% 10%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 38 55% 96%;
+
+  --input: 152 40% 20%;
+  --ring: 45 68% 47%;
+  
+  --chart-1: 45 68% 47%;
+  --chart-2: 152 68% 40%;
+  --chart-3: 355 54% 60%;
+  --chart-4: 38 55% 70%;
+  --chart-5: 152 68% 20%;
+
+  --shadow-2xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+  --shadow-xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+  --shadow-sm:
+    0px 2px 0px 0px hsl(0 0% 0% / 0.5),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+  --shadow:
+    0px 2px 0px 0px hsl(0 0% 0% / 0.5),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.5);
+  --shadow-md:
+    0px 2px 0px 0px hsl(0 0% 0% / 0.5),
+    0px 2px 4px -1px hsl(0 0% 0% / 0.5);
+  --shadow-lg:
+    0px 2px 0px 0px hsl(0 0% 0% / 0.5),
+    0px 4px 6px -1px hsl(0 0% 0% / 0.5);
+  --shadow-xl:
+    0px 2px 0px 0px hsl(0 0% 0% / 0.5),
+    0px 8px 10px -1px hsl(0 0% 0% / 0.5);
+  --shadow-2xl: 0px 2px 0px 0px hsl(0 0% 0% / 0.5);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  /* Consistent, visible keyboard focus across every interactive element. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 4px);
+  }
+
+  /* Smooth, subtle default transitions for interactive affordances. */
+  a, button, [role='button'], input, select, textarea {
+    transition-property: color, background-color, border-color, box-shadow,
+      transform, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Respect users who prefer reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  input[type='search']::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {
+  }
+
+  .no-default-active-elevate {
+  }
+
+  .toggle-elevate::before,
+  .toggle-elevate-2::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .toggle-elevate.toggle-elevated::before {
+    background-color: var(--elevate-2);
+  }
+
+  .border.toggle-elevate::before {
+    inset: -1px;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-1);
+  }
+
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-2);
+  }
+
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
+    inset: -1px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Bazm visual language: suzani-inspired motifs & micro-interactions  */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  /* Subtle suzani lattice — a faint geometric field for hero backgrounds and
+     section headers. Uses the gold accent at very low opacity so it reads as
+     texture, never clutter. */
+  .suzani-field {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1' opacity='0.5'%3E%3Cpath d='M40 8 L52 20 L40 32 L28 20 Z'/%3E%3Cpath d='M40 48 L52 60 L40 72 L28 60 Z'/%3E%3Cpath d='M0 40 L12 28 L24 40 L12 52 Z'/%3E%3Cpath d='M56 40 L68 28 L80 40 L68 52 Z'/%3E%3Ccircle cx='40' cy='40' r='4'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 80px 80px;
+  }
+
+  /* A thin suzani ribbon for card headers and accent strips. */
+  .suzani-ribbon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='12' viewBox='0 0 48 12'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1.25' opacity='0.9'%3E%3Cpath d='M6 6 L12 1 L18 6 L12 11 Z'/%3E%3Cpath d='M30 6 L36 1 L42 6 L36 11 Z'/%3E%3Cline x1='18' y1='6' x2='30' y2='6'/%3E%3Cline x1='42' y1='6' x2='48' y2='6'/%3E%3Cline x1='0' y1='6' x2='6' y2='6'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: center;
+  }
+
+  /* Card hover: gentle lift + warmer shadow. Pairs with hover-elevate. */
+  .card-lift {
+    transition:
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0px 2px 0px 0px hsl(45 68% 47% / 0.15),
+      0px 12px 24px -8px hsl(152 68% 19% / 0.18);
+  }
+
+  /* Button press feedback. */
+  .press:active {
+    transform: translateY(1px) scale(0.985);
+  }
+
+  /* Page / section entrance fade. */
+  .page-fade {
+    animation: bazm-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes bazm-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

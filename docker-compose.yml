@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bazm}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-bazm}
+    volumes:
+      - bazm_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bazm}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Not exposed to the host by default — only the api service needs it,
+    # reached over the internal compose network. Uncomment to debug locally:
+    # ports:
+    #   - "5432:5432"
+
+  api:
+    build:
+      context: .
+      dockerfile: artifacts/api-server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgres://${POSTGRES_USER:-bazm}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-bazm}
+      SESSION_SECRET: ${SESSION_SECRET:?SESSION_SECRET is required}
+      PUBLIC_APP_URL: ${PUBLIC_APP_URL:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      PUBLIC_OBJECT_SEARCH_PATHS: ${PUBLIC_OBJECT_SEARCH_PATHS:-}
+      PRIVATE_OBJECT_DIR: ${PRIVATE_OBJECT_DIR:-}
+      GCS_SERVICE_ACCOUNT_KEY_JSON: ${GCS_SERVICE_ACCOUNT_KEY_JSON:-}
+    # Not published to the host — the web service proxies to it internally.
+    # Uncomment to hit the API directly while debugging:
+    # ports:
+    #   - "5000:5000"
+
+  web:
+    build:
+      context: .
+      dockerfile: artifacts/bazm/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-80}:80"
+
+volumes:
+  bazm_pgdata:

@@ -1,0 +1,3230 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: budget
+    description: Wedding budget planner operations
+  - name: vendors
+    description: Vendor marketplace and comparison operations
+  - name: vendor-dashboard
+    description: Vendor-side profile, tier, and inquiry management
+  - name: dasturxon
+    description: Dasturxon (wedding table) comparison — real weddings, real spend
+  - name: sufficiency
+    description: Food/product quantity sufficiency calculator — "will it be enough?"
+  - name: marketplace
+    description: Marketplace product catalog for physical wedding goods
+  - name: organizer
+    description: Organizer dashboard — client roster and plan oversight
+  - name: Storage
+    description: Object storage upload and serving endpoints.
+paths:
+  /storage/uploads/request-url:
+    post:
+      tags: [Storage]
+      operationId: requestUploadUrl
+      summary: Request a presigned URL for file upload
+      description: |
+        Returns a presigned GCS URL for direct upload. The client sends JSON
+        metadata here, then uploads the file directly to the returned URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlRequest"
+      responses:
+        "200":
+          description: Presigned upload URL generated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadUrlResponse"
+        "400":
+          description: Missing or invalid required fields.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to generate upload URL.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /storage/public-objects/{filePath}:
+    get:
+      tags: [Storage]
+      operationId: getPublicObject
+      summary: Serve a public asset from PUBLIC_OBJECT_SEARCH_PATHS
+      parameters:
+        - name: filePath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Relative file path within the public search paths.
+      responses:
+        "200":
+          description: Object content streamed with correct Content-Type.
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to serve public object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /storage/objects/{objectPath}:
+    get:
+      tags: [Storage]
+      operationId: getStorageObject
+      summary: Serve an object entity from PRIVATE_OBJECT_DIR
+      parameters:
+        - name: objectPath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Object path within the private object dir (e.g. `uploads/some-uuid`).
+      responses:
+        "200":
+          description: Object content streamed with correct Content-Type.
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Object not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to serve object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /auth/register:
+    post:
+      operationId: registerUser
+      tags: [auth]
+      summary: Register a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Account created and signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      operationId: loginUser
+      tags: [auth]
+      summary: Sign in with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/logout:
+    post:
+      operationId: logoutUser
+      tags: [auth]
+      summary: Sign out of the current session
+      responses:
+        "200":
+          description: Signed out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      summary: Get the currently signed-in user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/phone/request-otp:
+    post:
+      operationId: requestPhoneOtp
+      tags: [auth]
+      summary: Request a one-time login code by phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PhoneOtpRequestInput"
+      responses:
+        "200":
+          description: Code sent (SMS is stubbed in development)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhoneOtpRequestResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/phone/verify-otp:
+    post:
+      operationId: verifyPhoneOtp
+      tags: [auth]
+      summary: Verify a phone code and sign in, creating an account if needed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PhoneOtpVerifyInput"
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /budget/estimate:
+    post:
+      operationId: estimateBudget
+      tags: [budget]
+      summary: Compute a wedding budget breakdown, sufficiency check, and scenarios
+      description: >
+        Pure computation from seeded vendor tier data. Public — a visitor can try
+        the planner before creating an account. Does not persist anything.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BudgetEstimateInput"
+      responses:
+        "200":
+          description: Computed budget estimate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetEstimate"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /budget/plans:
+    get:
+      operationId: listBudgetPlans
+      tags: [budget]
+      summary: List the signed-in user's saved budget plans
+      responses:
+        "200":
+          description: Saved plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BudgetPlanSummary"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createBudgetPlan
+      tags: [budget]
+      summary: Save a budget plan for the signed-in user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBudgetPlanInput"
+      responses:
+        "201":
+          description: Plan saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedBudgetPlan"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /budget/plans/{id}:
+    get:
+      operationId: getBudgetPlan
+      tags: [budget]
+      summary: Get one of the signed-in user's saved plans with full breakdown
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Saved plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedBudgetPlan"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /budget/shared/{token}:
+    get:
+      operationId: getSharedBudgetPlan
+      tags: [budget]
+      summary: Public read-only "share with family" view of a plan
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Shared plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedBudgetPlan"
+        "404":
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /budget/options:
+    get:
+      operationId: getBudgetOptions
+      tags: [budget]
+      summary: Verified vendor tiers per planner category for the manual picker
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CityOption"
+        - name: guestCount
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5000
+      responses:
+        "200":
+          description: Category options
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BudgetCategoryOptions"
+  /vendors:
+    get:
+      operationId: listVendors
+      tags: [vendors]
+      summary: List vendors, optionally filtered by category and city
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/VendorCategory"
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Matching vendors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VendorSummary"
+  /vendors/category/{category}:
+    get:
+      operationId: getCategoryComparison
+      tags: [vendors]
+      summary: Compare every vendor's tiers for one category side by side
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/VendorCategory"
+        - name: guestCount
+          in: query
+          required: false
+          description: When provided, each tier includes an estimatedCost for this guest count.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5000
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category comparison
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryComparison"
+  /vendors/{id}:
+    get:
+      operationId: getVendor
+      tags: [vendors]
+      summary: Get one vendor with all its tiers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Vendor detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VendorDetail"
+        "404":
+          description: Vendor not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendors/{id}/inquiries:
+    post:
+      operationId: createVendorInquiry
+      tags: [vendors]
+      summary: Log an inquiry and reveal the vendor's contact phone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateInquiryInput"
+      responses:
+        "201":
+          description: Inquiry logged
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VendorContactResponse"
+        "404":
+          description: Vendor not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendor/me:
+    get:
+      operationId: getMyVendor
+      tags: [vendor-dashboard]
+      summary: Get the signed-in vendor's profile, tiers, and inquiry count
+      responses:
+        "200":
+          description: Vendor profile (vendor is null if not yet created)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MyVendorProfile"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: upsertMyVendor
+      tags: [vendor-dashboard]
+      summary: Create or update the signed-in vendor's profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpsertVendorInput"
+      responses:
+        "200":
+          description: Updated vendor profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VendorWithTiers"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendor/me/tiers:
+    post:
+      operationId: createMyVendorTier
+      tags: [vendor-dashboard]
+      summary: Add a tier to the signed-in vendor's profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VendorTierInput"
+      responses:
+        "201":
+          description: Created tier
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VendorTier"
+        "400":
+          description: Invalid input or no vendor profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendor/me/tiers/{tierId}:
+    put:
+      operationId: updateMyVendorTier
+      tags: [vendor-dashboard]
+      summary: Update one of the signed-in vendor's tiers
+      parameters:
+        - name: tierId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VendorTierInput"
+      responses:
+        "200":
+          description: Updated tier
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VendorTier"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Tier not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteMyVendorTier
+      tags: [vendor-dashboard]
+      summary: Delete one of the signed-in vendor's tiers
+      parameters:
+        - name: tierId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Tier not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /dasturxon:
+    get:
+      operationId: listDasturxon
+      tags: [dasturxon]
+      summary: Public feed of real weddings' dasturxon spreads
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: minGuests
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5000
+        - name: maxGuests
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5000
+      responses:
+        "200":
+          description: Matching public dasturxon entries (anonymized)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DasturxonEntry"
+    post:
+      operationId: createDasturxon
+      tags: [dasturxon]
+      summary: Submit your own dasturxon after the wedding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDasturxonInput"
+      responses:
+        "201":
+          description: Created entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MyDasturxonEntry"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /dasturxon/mine:
+    get:
+      operationId: listMyDasturxon
+      tags: [dasturxon]
+      summary: The signed-in user's own dasturxon entries (public and private)
+      responses:
+        "200":
+          description: Your entries, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MyDasturxonEntry"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /dasturxon/stats:
+    get:
+      operationId: getDasturxonStats
+      tags: [dasturxon]
+      summary: Local benchmark — average food spend per guest, optionally by city
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Aggregate stats across public entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DasturxonStats"
+  /dasturxon/comparison:
+    get:
+      operationId: getDasturxonComparison
+      tags: [dasturxon]
+      summary: Your planned dasturxon vs. similar-sized real weddings
+      responses:
+        "200":
+          description: Comparison against weddings within +/-20% of your guest count
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DasturxonComparison"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /sufficiency:
+    post:
+      operationId: calculateSufficiency
+      tags: [sufficiency]
+      summary: Recommended food/product quantities for a guest count and duration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculateSufficiencyInput"
+      responses:
+        "200":
+          description: Per-category recommended quantity ranges with a safety buffer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SufficiencyResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /marketplace/products:
+    get:
+      operationId: listMarketplaceProducts
+      tags: [marketplace]
+      summary: Active marketplace products, optionally filtered by category
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Active products for sale
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MarketplaceProduct"
+  /organizer/clients:
+    get:
+      operationId: listOrganizerClients
+      tags: [organizer]
+      summary: List the signed-in organizer's clients with budget snapshots
+      responses:
+        "200":
+          description: Clients with a quick-glance budget snapshot
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizerClientSummary"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an organizer account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createOrganizerClient
+      tags: [organizer]
+      summary: Add a client, optionally linking a couple already on Bazm by email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrganizerClientInput"
+      responses:
+        "201":
+          description: The created client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizerClientSummary"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an organizer account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /organizer/clients/{id}:
+    get:
+      operationId: getOrganizerClient
+      tags: [organizer]
+      summary: One client with their linked plan, chosen tiers, and pending decisions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Client detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizerClientDetail"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an organizer account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /organizer/summary:
+    get:
+      operationId: getOrganizerSummary
+      tags: [organizer]
+      summary: Weekly outreach summary — upcoming weddings and unresolved clients
+      responses:
+        "200":
+          description: Summary counts and upcoming weddings in the next 30 days
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizerSummary"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an organizer account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ---------------------------------------------------------------------------
+  # Seller products (role=vendor, scoped to the owned vendor)
+  # ---------------------------------------------------------------------------
+  /vendor/me/products:
+    get:
+      operationId: listMyProducts
+      tags: [seller-products]
+      summary: List the signed-in vendor's products (including inactive)
+      responses:
+        "200":
+          description: The vendor's products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SellerProduct"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createMyProduct
+      tags: [seller-products]
+      summary: Add a marketplace product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SellerProductInput"
+      responses:
+        "201":
+          description: Created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SellerProduct"
+        "400":
+          description: Invalid input or no vendor profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendor/me/products/{id}:
+    put:
+      operationId: updateMyProduct
+      tags: [seller-products]
+      summary: Update one of the signed-in vendor's products (edit or deactivate)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SellerProductInput"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SellerProduct"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ---------------------------------------------------------------------------
+  # Seller orders (incoming orders for the vendor's products)
+  # ---------------------------------------------------------------------------
+  /vendor/me/orders:
+    get:
+      operationId: listMyOrders
+      tags: [seller-orders]
+      summary: Incoming orders for the signed-in vendor's products
+      responses:
+        "200":
+          description: The vendor's incoming orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SellerOrder"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vendor/me/orders/{id}/status:
+    patch:
+      operationId: updateMyOrderStatus
+      tags: [seller-orders]
+      summary: Update the status of an order for the vendor's products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStatusInput"
+      responses:
+        "200":
+          description: Updated order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SellerOrder"
+        "400":
+          description: Invalid status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not a vendor account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ---------------------------------------------------------------------------
+  # Shopping cart (persisted per signed-in user)
+  # ---------------------------------------------------------------------------
+  /cart:
+    get:
+      operationId: getCart
+      tags: [cart]
+      summary: The signed-in user's cart with product details and totals
+      responses:
+        "200":
+          description: The cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartView"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: replaceCart
+      tags: [cart]
+      summary: Replace the signed-in user's cart with the given items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartInput"
+      responses:
+        "200":
+          description: The updated cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartView"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ---------------------------------------------------------------------------
+  # Buyer orders and checkout
+  # ---------------------------------------------------------------------------
+  /orders/checkout:
+    post:
+      operationId: checkoutCart
+      tags: [orders]
+      summary: Place orders from the signed-in user's cart (one order per seller)
+      responses:
+        "200":
+          description: The created orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutResponse"
+        "400":
+          description: Empty cart or insufficient stock
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /orders/mine:
+    get:
+      operationId: listMyPurchases
+      tags: [orders]
+      summary: The signed-in buyer's orders
+      responses:
+        "200":
+          description: The buyer's orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BuyerOrder"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /orders/{id}/cancel:
+    post:
+      operationId: cancelMyOrder
+      tags: [orders]
+      summary: Cancel one of the buyer's own pending orders (restores stock)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: The cancelled order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuyerOrder"
+        "400":
+          description: Order cannot be cancelled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ---------------------------------------------------------------------------
+  # Admin panel (role=admin)
+  # ---------------------------------------------------------------------------
+  /admin/stats:
+    get:
+      operationId: adminGetStats
+      tags: [admin]
+      summary: Platform-wide totals
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/vendors:
+    get:
+      operationId: adminListVendors
+      tags: [admin]
+      summary: All vendors
+      responses:
+        "200":
+          description: Vendors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminVendor"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: adminCreateVendor
+      tags: [admin]
+      summary: Manually add a vendor (created already verified)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminCreateVendorInput"
+      responses:
+        "201":
+          description: Vendor created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminVendor"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/vendors/{id}:
+    patch:
+      operationId: adminUpdateVendor
+      tags: [admin]
+      summary: Verify or deactivate a vendor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminVendorUpdate"
+      responses:
+        "200":
+          description: Updated vendor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminVendor"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Vendor not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/products:
+    get:
+      operationId: adminListProducts
+      tags: [admin]
+      summary: All marketplace products
+      responses:
+        "200":
+          description: Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminProduct"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/products/{id}:
+    patch:
+      operationId: adminUpdateProduct
+      tags: [admin]
+      summary: Moderate (activate/deactivate) a product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminProductUpdate"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminProduct"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/orders:
+    get:
+      operationId: adminListOrders
+      tags: [admin]
+      summary: All orders, optionally filtered by status
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [pending, confirmed, fulfilled, cancelled]
+      responses:
+        "200":
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminOrder"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/orders/{id}/status:
+    patch:
+      operationId: adminUpdateOrderStatus
+      tags: [admin]
+      summary: Change an order's status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStatusInput"
+      responses:
+        "200":
+          description: Updated order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrder"
+        "400":
+          description: Invalid status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/users:
+    get:
+      operationId: adminListUsers
+      tags: [admin]
+      summary: All users
+      responses:
+        "200":
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/users/{id}/role:
+    patch:
+      operationId: adminUpdateUserRole
+      tags: [admin]
+      summary: Change a user's role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminUserRoleUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "400":
+          description: Invalid role
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Not an admin account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    UploadUrlRequest:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Original file name.
+        size:
+          type: integer
+          minimum: 1
+          description: File size in bytes.
+        contentType:
+          type: string
+          minLength: 1
+          description: MIME type of the file (e.g. `image/jpeg`).
+    UploadUrlResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:
+          type: string
+          description: Presigned GCS URL for PUT upload.
+        objectPath:
+          type: string
+          description: Normalized object path (e.g. `/objects/uploads/uuid`).
+        metadata:
+          $ref: "#/components/schemas/UploadUrlRequest"
+    SellerProduct:
+      type: object
+      required:
+        [
+          id,
+          sellerVendorId,
+          name,
+          category,
+          pricePerUnit,
+          unit,
+          stockQuantity,
+          photos,
+          isActive,
+          createdAt,
+        ]
+      properties:
+        id:
+          type: integer
+        sellerVendorId:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        pricePerUnit:
+          type: integer
+        unit:
+          type: string
+        stockQuantity:
+          type: integer
+        description:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+    SellerProductInput:
+      type: object
+      required: [name, category, pricePerUnit, unit, stockQuantity]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 160
+        category:
+          type: string
+          minLength: 1
+        pricePerUnit:
+          type: integer
+          minimum: 0
+        unit:
+          type: string
+          minLength: 1
+        stockQuantity:
+          type: integer
+          minimum: 0
+        description:
+          type: ["string", "null"]
+          maxLength: 2000
+        photos:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+    OrderItemView:
+      type: object
+      required: [productId, productName, quantity, unitPrice, lineTotal]
+      properties:
+        productId:
+          type: integer
+        productName:
+          type: string
+        quantity:
+          type: integer
+        unitPrice:
+          type: integer
+        lineTotal:
+          type: integer
+        photo:
+          type: ["string", "null"]
+    BuyerOrder:
+      type: object
+      required: [id, status, totalAmount, createdAt, items]
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        totalAmount:
+          type: integer
+        createdAt:
+          type: string
+        sellerName:
+          type: ["string", "null"]
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemView"
+    SellerOrder:
+      type: object
+      required: [id, status, totalAmount, createdAt, items]
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        totalAmount:
+          type: integer
+        createdAt:
+          type: string
+        buyerName:
+          type: ["string", "null"]
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemView"
+    CartLine:
+      type: object
+      required:
+        [
+          productId,
+          name,
+          category,
+          pricePerUnit,
+          unit,
+          quantity,
+          stockQuantity,
+          lineTotal,
+        ]
+      properties:
+        productId:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        pricePerUnit:
+          type: integer
+        unit:
+          type: string
+        quantity:
+          type: integer
+        stockQuantity:
+          type: integer
+        photo:
+          type: ["string", "null"]
+        sellerName:
+          type: ["string", "null"]
+        lineTotal:
+          type: integer
+    CartView:
+      type: object
+      required: [items, total, itemCount]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartLine"
+        total:
+          type: integer
+        itemCount:
+          type: integer
+    CartInput:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required: [productId, quantity]
+            properties:
+              productId:
+                type: integer
+              quantity:
+                type: integer
+    CheckoutOrderResult:
+      type: object
+      required: [id, totalAmount, status]
+      properties:
+        id:
+          type: integer
+        sellerName:
+          type: ["string", "null"]
+        totalAmount:
+          type: integer
+        status:
+          type: string
+    CheckoutResponse:
+      type: object
+      required: [orders, total]
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: "#/components/schemas/CheckoutOrderResult"
+        total:
+          type: integer
+    UpdateOrderStatusInput:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [pending, confirmed, fulfilled, cancelled]
+    AdminStats:
+      type: object
+      required:
+        [totalUsers, totalVendors, totalProducts, totalOrders, totalGmv]
+      properties:
+        totalUsers:
+          type: integer
+        totalVendors:
+          type: integer
+        totalProducts:
+          type: integer
+        totalOrders:
+          type: integer
+        totalGmv:
+          type: integer
+    AdminVendor:
+      type: object
+      required:
+        [id, businessName, category, city, isVerified, isActive, productCount, createdAt]
+      properties:
+        id:
+          type: integer
+        businessName:
+          type: string
+        category:
+          type: string
+        city:
+          type: string
+        ownerName:
+          type: ["string", "null"]
+        ownerEmail:
+          type: ["string", "null"]
+        isVerified:
+          type: boolean
+        isActive:
+          type: boolean
+        productCount:
+          type: integer
+        createdAt:
+          type: string
+    AdminVendorUpdate:
+      type: object
+      properties:
+        isVerified:
+          type: boolean
+        isActive:
+          type: boolean
+    AdminCreateVendorInput:
+      type: object
+      required: [businessName, category, city]
+      properties:
+        businessName:
+          type: string
+          minLength: 1
+          maxLength: 120
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        city:
+          type: string
+          minLength: 1
+          maxLength: 80
+        address:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        ownerEmail:
+          type: ["string", "null"]
+          description: Optional email of an existing user to own this vendor.
+    AdminProduct:
+      type: object
+      required:
+        [id, name, category, pricePerUnit, unit, stockQuantity, isActive, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        pricePerUnit:
+          type: integer
+        unit:
+          type: string
+        stockQuantity:
+          type: integer
+        sellerName:
+          type: ["string", "null"]
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+    AdminProductUpdate:
+      type: object
+      required: [isActive]
+      properties:
+        isActive:
+          type: boolean
+    AdminOrder:
+      type: object
+      required: [id, status, totalAmount, createdAt, itemCount]
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        totalAmount:
+          type: integer
+        createdAt:
+          type: string
+        buyerName:
+          type: ["string", "null"]
+        sellerName:
+          type: ["string", "null"]
+        itemCount:
+          type: integer
+    AdminUser:
+      type: object
+      required: [id, name, email, role, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        createdAt:
+          type: string
+    AdminUserRoleUpdate:
+      type: object
+      required: [role]
+      properties:
+        role:
+          type: string
+          enum: [couple, vendor, organizer, admin]
+    DasturxonItem:
+      type: object
+      required: [itemName, quantity]
+      properties:
+        itemName:
+          type: string
+        quantity:
+          type: integer
+        approxCost:
+          type: ["integer", "null"]
+    DasturxonItemInput:
+      type: object
+      required: [itemName, quantity]
+      properties:
+        itemName:
+          type: string
+          minLength: 1
+          maxLength: 80
+        quantity:
+          type: integer
+          minimum: 0
+          maximum: 100000
+        approxCost:
+          type: ["integer", "null"]
+          minimum: 0
+    DasturxonEntry:
+      type: object
+      required:
+        [id, city, guestCount, totalSpentOnFood, perGuestSpend, items, photos, createdAt]
+      properties:
+        id:
+          type: integer
+        city:
+          type: string
+        guestCount:
+          type: integer
+        totalSpentOnFood:
+          type: integer
+        perGuestSpend:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DasturxonItem"
+        photos:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    MyDasturxonEntry:
+      type: object
+      required:
+        [
+          id,
+          city,
+          guestCount,
+          totalSpentOnFood,
+          perGuestSpend,
+          items,
+          photos,
+          isPublic,
+          createdAt,
+        ]
+      properties:
+        id:
+          type: integer
+        city:
+          type: string
+        guestCount:
+          type: integer
+        totalSpentOnFood:
+          type: integer
+        perGuestSpend:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DasturxonItem"
+        photos:
+          type: array
+          items:
+            type: string
+        isPublic:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    CreateDasturxonInput:
+      type: object
+      required: [city, guestCount, totalSpentOnFood, items, photos, isPublic]
+      properties:
+        city:
+          $ref: "#/components/schemas/CityOption"
+        guestCount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        totalSpentOnFood:
+          type: integer
+          minimum: 0
+        items:
+          type: array
+          minItems: 1
+          maxItems: 40
+          items:
+            $ref: "#/components/schemas/DasturxonItemInput"
+        photos:
+          type: array
+          minItems: 2
+          maxItems: 12
+          items:
+            type: string
+        isPublic:
+          type: boolean
+    DasturxonStats:
+      type: object
+      required:
+        [city, entryCount, avgSpendPerGuest, avgTotalSpend, avgGuestCount]
+      properties:
+        city:
+          type: ["string", "null"]
+          description: The city these stats cover, or null for all cities.
+        entryCount:
+          type: integer
+        avgSpendPerGuest:
+          type: integer
+        avgTotalSpend:
+          type: integer
+        avgGuestCount:
+          type: integer
+    CommonDasturxonItem:
+      type: object
+      required: [itemName, count]
+      properties:
+        itemName:
+          type: string
+        count:
+          type: integer
+          description: How many of the similar weddings included this item.
+    PlannedDasturxon:
+      type: object
+      required: [planId, city, guestCount]
+      properties:
+        planId:
+          type: integer
+        city:
+          type: string
+        guestCount:
+          type: integer
+        plannedFoodSpend:
+          type: ["integer", "null"]
+        plannedPerGuest:
+          type: ["integer", "null"]
+        plannedMenu:
+          type: ["string", "null"]
+    SimilarWeddings:
+      type: object
+      required:
+        [entryCount, guestMin, guestMax, avgFoodSpend, avgPerGuest, commonItems]
+      properties:
+        entryCount:
+          type: integer
+        guestMin:
+          type: integer
+        guestMax:
+          type: integer
+        avgFoodSpend:
+          type: integer
+        avgPerGuest:
+          type: integer
+        commonItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/CommonDasturxonItem"
+    DasturxonComparison:
+      type: object
+      required: [hasPlan]
+      properties:
+        hasPlan:
+          type: boolean
+        plan:
+          oneOf:
+            - $ref: "#/components/schemas/PlannedDasturxon"
+            - type: "null"
+        similar:
+          oneOf:
+            - $ref: "#/components/schemas/SimilarWeddings"
+            - type: "null"
+    PlannerCategory:
+      type: string
+      enum: [venue, catering, decor, music, photography, clothing]
+    TierLevel:
+      type: string
+      enum: [budget, standard, premium]
+    CityOption:
+      type: string
+      enum: [Tashkent, Samarkand, Bukhara, Other]
+    ScenarioKey:
+      type: string
+      enum: [current, minus30, minus50]
+    SufficiencyStatus:
+      type: string
+      enum: [sufficient, short, unknown]
+    AdjustmentKind:
+      type: string
+      enum: [reduce_guests, downgrade_category, downgrade_all]
+    BudgetEstimateInput:
+      type: object
+      required: [city, guestCount, priorities]
+      properties:
+        city:
+          $ref: "#/components/schemas/CityOption"
+        guestCount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        totalBudget:
+          type: ["integer", "null"]
+          minimum: 0
+        priorities:
+          type: array
+          description: >
+            Categories ranked most-important first. The first two are treated as
+            the couple's top priorities.
+          items:
+            $ref: "#/components/schemas/PlannerCategory"
+    CreateBudgetPlanInput:
+      type: object
+      required: [city, guestCount, selections]
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        city:
+          $ref: "#/components/schemas/CityOption"
+        guestCount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        totalBudget:
+          type: ["integer", "null"]
+          minimum: 0
+        selections:
+          type: array
+          minItems: 1
+          maxItems: 6
+          items:
+            $ref: "#/components/schemas/BudgetSelectionInput"
+    BudgetSelectionInput:
+      type: object
+      required: [category, vendorTierId]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        vendorTierId:
+          type: integer
+    BudgetCategoryOptions:
+      type: object
+      required: [category, isPriority, tiers]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        isPriority:
+          type: boolean
+        tiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ComparisonTier"
+    ManualPlanItem:
+      type: object
+      required:
+        [
+          category,
+          isPriority,
+          vendorId,
+          vendorName,
+          city,
+          tierId,
+          tierName,
+          unitType,
+          pricePerUnit,
+          estimatedCost,
+          photos,
+        ]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        isPriority:
+          type: boolean
+        vendorId:
+          type: integer
+        vendorName:
+          type: string
+        city:
+          type: string
+        tierId:
+          type: integer
+        tierName:
+          type: string
+        unitType:
+          $ref: "#/components/schemas/UnitType"
+        pricePerUnit:
+          type: integer
+        estimatedCost:
+          type: integer
+        photos:
+          type: array
+          items:
+            type: string
+    ManualPlanView:
+      type: object
+      required: [city, guestCount, totalBudget, estimatedTotal, status, items]
+      properties:
+        city:
+          type: string
+        guestCount:
+          type: integer
+        totalBudget:
+          type: ["integer", "null"]
+        estimatedTotal:
+          type: integer
+        status:
+          $ref: "#/components/schemas/SufficiencyStatus"
+        difference:
+          type: ["integer", "null"]
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ManualPlanItem"
+    BudgetCategoryEstimate:
+      type: object
+      required:
+        [
+          category,
+          tierLevel,
+          vendorId,
+          vendorName,
+          vendorCity,
+          tierId,
+          tierName,
+          unitType,
+          pricePerUnit,
+          estimatedCost,
+          isPriority,
+        ]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        tierLevel:
+          $ref: "#/components/schemas/TierLevel"
+        vendorId:
+          type: integer
+        vendorName:
+          type: string
+        vendorCity:
+          type: string
+        tierId:
+          type: integer
+        tierName:
+          type: string
+        unitType:
+          $ref: "#/components/schemas/UnitType"
+        pricePerUnit:
+          type: integer
+        estimatedCost:
+          type: integer
+        isPriority:
+          type: boolean
+    BudgetScenario:
+      type: object
+      required: [key, guestCount, total]
+      properties:
+        key:
+          $ref: "#/components/schemas/ScenarioKey"
+        guestCount:
+          type: integer
+        total:
+          type: integer
+    BudgetAdjustment:
+      type: object
+      required: [kind, newTotal, newDifference]
+      properties:
+        kind:
+          $ref: "#/components/schemas/AdjustmentKind"
+        category:
+          oneOf:
+            - $ref: "#/components/schemas/PlannerCategory"
+            - type: "null"
+        fromTierLevel:
+          oneOf:
+            - $ref: "#/components/schemas/TierLevel"
+            - type: "null"
+        toTierLevel:
+          oneOf:
+            - $ref: "#/components/schemas/TierLevel"
+            - type: "null"
+        fromGuestCount:
+          type: ["integer", "null"]
+        toGuestCount:
+          type: ["integer", "null"]
+        newTotal:
+          type: integer
+        newDifference:
+          type: integer
+          description: totalBudget minus newTotal; positive means it now fits.
+    BudgetUpgrade:
+      type: object
+      required: [category, fromTierLevel, toTierLevel, additionalCost, newTotal]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        fromTierLevel:
+          $ref: "#/components/schemas/TierLevel"
+        toTierLevel:
+          $ref: "#/components/schemas/TierLevel"
+        additionalCost:
+          type: integer
+        newTotal:
+          type: integer
+    BudgetSufficiency:
+      type: object
+      required: [status, adjustments, upgrades]
+      properties:
+        status:
+          $ref: "#/components/schemas/SufficiencyStatus"
+        difference:
+          type: ["integer", "null"]
+          description: >
+            Surplus (positive) when sufficient, shortfall magnitude (positive)
+            when short, null when the user did not provide a budget.
+        adjustments:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetAdjustment"
+        upgrades:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetUpgrade"
+    BudgetEstimate:
+      type: object
+      required:
+        [
+          city,
+          guestCount,
+          totalBudget,
+          priorities,
+          categories,
+          estimatedTotal,
+          recommendedBudget,
+          sufficiency,
+          scenarios,
+        ]
+      properties:
+        city:
+          $ref: "#/components/schemas/CityOption"
+        guestCount:
+          type: integer
+        totalBudget:
+          type: ["integer", "null"]
+        priorities:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannerCategory"
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetCategoryEstimate"
+        estimatedTotal:
+          type: integer
+        recommendedBudget:
+          type: integer
+        sufficiency:
+          $ref: "#/components/schemas/BudgetSufficiency"
+        scenarios:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetScenario"
+    SavedBudgetPlan:
+      type: object
+      required: [id, title, shareToken, createdAt, plan]
+      properties:
+        id:
+          type: integer
+        title:
+          type: ["string", "null"]
+        shareToken:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        plan:
+          $ref: "#/components/schemas/ManualPlanView"
+    BudgetPlanSummary:
+      type: object
+      required:
+        [
+          id,
+          title,
+          city,
+          guestCount,
+          totalBudget,
+          estimatedTotal,
+          status,
+          shareToken,
+          createdAt,
+        ]
+      properties:
+        id:
+          type: integer
+        title:
+          type: ["string", "null"]
+        city:
+          type: string
+        guestCount:
+          type: integer
+        totalBudget:
+          type: ["integer", "null"]
+        estimatedTotal:
+          type: integer
+        status:
+          $ref: "#/components/schemas/SufficiencyStatus"
+        shareToken:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    SharedBudgetPlan:
+      type: object
+      required: [title, createdAt, plan]
+      properties:
+        title:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        plan:
+          $ref: "#/components/schemas/ManualPlanView"
+    VendorCategory:
+      type: string
+      enum:
+        [
+          venue,
+          catering,
+          decor,
+          music,
+          photography,
+          clothing,
+          rental_items,
+          wedding_products,
+        ]
+    UnitType:
+      type: string
+      enum: [per_guest, per_event, per_day, flat]
+    VendorTier:
+      type: object
+      required: [id, vendorId, tierName, pricePerUnit, unitType, photos]
+      properties:
+        id:
+          type: integer
+        vendorId:
+          type: integer
+        tierName:
+          type: string
+        pricePerUnit:
+          type: integer
+        unitType:
+          $ref: "#/components/schemas/UnitType"
+        description:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+    VendorWithTiers:
+      type: object
+      required: [id, businessName, category, city, isVerified, photos, tiers]
+      properties:
+        id:
+          type: integer
+        businessName:
+          type: string
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        city:
+          type: string
+        address:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        isVerified:
+          type: boolean
+        tiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/VendorTier"
+    VendorSummary:
+      type: object
+      required: [id, businessName, category, city, isVerified, tierCount]
+      properties:
+        id:
+          type: integer
+        businessName:
+          type: string
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        city:
+          type: string
+        description:
+          type: ["string", "null"]
+        isVerified:
+          type: boolean
+        startingPrice:
+          type: ["integer", "null"]
+        startingUnit:
+          oneOf:
+            - $ref: "#/components/schemas/UnitType"
+            - type: "null"
+        photo:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        tierCount:
+          type: integer
+    VendorDetail:
+      type: object
+      required: [id, businessName, category, city, isVerified, photos, tiers]
+      properties:
+        id:
+          type: integer
+        businessName:
+          type: string
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        city:
+          type: string
+        address:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        isVerified:
+          type: boolean
+        tiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/VendorTier"
+    ComparisonTier:
+      type: object
+      required:
+        [
+          vendorId,
+          vendorName,
+          vendorCity,
+          isVerified,
+          tierId,
+          tierName,
+          unitType,
+          pricePerUnit,
+          photos,
+        ]
+      properties:
+        vendorId:
+          type: integer
+        vendorName:
+          type: string
+        vendorCity:
+          type: string
+        isVerified:
+          type: boolean
+        tierId:
+          type: integer
+        tierName:
+          type: string
+        unitType:
+          $ref: "#/components/schemas/UnitType"
+        pricePerUnit:
+          type: integer
+        description:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+        estimatedCost:
+          type: ["integer", "null"]
+    CategoryComparison:
+      type: object
+      required: [category, tiers]
+      properties:
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        guestCount:
+          type: ["integer", "null"]
+        tiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ComparisonTier"
+    CreateInquiryInput:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 500
+    VendorContactResponse:
+      type: object
+      required: [vendorId, businessName]
+      properties:
+        vendorId:
+          type: integer
+        businessName:
+          type: string
+        phone:
+          type: ["string", "null"]
+    MyVendorProfile:
+      type: object
+      required: [inquiryCount]
+      properties:
+        inquiryCount:
+          type: integer
+        vendor:
+          oneOf:
+            - $ref: "#/components/schemas/VendorWithTiers"
+            - type: "null"
+    UpsertVendorInput:
+      type: object
+      required: [businessName, category, city, address, photos]
+      properties:
+        businessName:
+          type: string
+          minLength: 1
+          maxLength: 120
+        category:
+          $ref: "#/components/schemas/VendorCategory"
+        city:
+          type: string
+          minLength: 1
+          maxLength: 80
+        address:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        photos:
+          type: array
+          minItems: 2
+          maxItems: 12
+          items:
+            type: string
+    VendorTierInput:
+      type: object
+      required: [tierName, pricePerUnit, unitType]
+      properties:
+        tierName:
+          type: string
+          minLength: 1
+          maxLength: 60
+        pricePerUnit:
+          type: integer
+          minimum: 0
+        unitType:
+          $ref: "#/components/schemas/UnitType"
+        description:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    UserRole:
+      type: string
+      enum: [couple, vendor, organizer, admin]
+    Locale:
+      type: string
+      enum: [uz, ru, en]
+    User:
+      type: object
+      required: [id, name, email, role, preferredLocale, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: ["string", "null"]
+        email:
+          type: string
+        role:
+          $ref: "#/components/schemas/UserRole"
+        preferredLocale:
+          $ref: "#/components/schemas/Locale"
+        createdAt:
+          type: string
+          format: date-time
+    RegisterInput:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 6
+        phone:
+          type: string
+        role:
+          $ref: "#/components/schemas/UserRole"
+        preferredLocale:
+          $ref: "#/components/schemas/Locale"
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 1
+    PhoneOtpRequestInput:
+      type: object
+      required: [phone]
+      properties:
+        phone:
+          type: string
+          minLength: 6
+          maxLength: 20
+    PhoneOtpRequestResult:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+        devCode:
+          type: ["string", "null"]
+          description: The OTP code, returned only in development to ease testing.
+    PhoneOtpVerifyInput:
+      type: object
+      required: [phone, code]
+      properties:
+        phone:
+          type: string
+          minLength: 6
+          maxLength: 20
+        code:
+          type: string
+          minLength: 4
+          maxLength: 8
+        name:
+          type: string
+          maxLength: 120
+        role:
+          $ref: "#/components/schemas/UserRole"
+    SufficiencyCategory:
+      type: string
+      enum: [plov, salads, meat, bread, fruit, sweets, drinks, tableware]
+    CalculateSufficiencyInput:
+      type: object
+      required: [guestCount, durationHours, categories]
+      properties:
+        guestCount:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        durationHours:
+          type: integer
+          minimum: 1
+          maximum: 24
+        categories:
+          type: array
+          minItems: 1
+          maxItems: 8
+          items:
+            $ref: "#/components/schemas/SufficiencyCategory"
+    SufficiencyProductMatch:
+      type: object
+      required:
+        [
+          productId,
+          name,
+          unit,
+          pricePerUnit,
+          recommendedQuantity,
+          totalPrice,
+          stockQuantity,
+          inStock,
+        ]
+      properties:
+        productId:
+          type: integer
+        name:
+          type: string
+        unit:
+          type: string
+        pricePerUnit:
+          type: integer
+        recommendedQuantity:
+          type: integer
+        totalPrice:
+          type: integer
+        stockQuantity:
+          type: integer
+        inStock:
+          type: boolean
+    SufficiencyCategoryResult:
+      type: object
+      required:
+        [
+          category,
+          unit,
+          perGuest,
+          durationSensitive,
+          strictAmount,
+          recommendedAmount,
+        ]
+      properties:
+        category:
+          $ref: "#/components/schemas/SufficiencyCategory"
+        unit:
+          type: string
+        perGuest:
+          type: number
+        durationSensitive:
+          type: boolean
+        strictAmount:
+          type: number
+        recommendedAmount:
+          type: number
+        product:
+          oneOf:
+            - $ref: "#/components/schemas/SufficiencyProductMatch"
+            - type: "null"
+    SufficiencyResult:
+      type: object
+      required:
+        [
+          guestCount,
+          durationHours,
+          bufferPercent,
+          baselineDurationHours,
+          categories,
+        ]
+      properties:
+        guestCount:
+          type: integer
+        durationHours:
+          type: integer
+        bufferPercent:
+          type: number
+        baselineDurationHours:
+          type: integer
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/SufficiencyCategoryResult"
+    MarketplaceProduct:
+      type: object
+      required: [id, name, category, pricePerUnit, unit, stockQuantity, photos]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        pricePerUnit:
+          type: integer
+        unit:
+          type: string
+        stockQuantity:
+          type: integer
+        description:
+          type: ["string", "null"]
+        sellerName:
+          type: ["string", "null"]
+        photos:
+          type: array
+          items:
+            type: string
+    OrganizerClientSummary:
+      type: object
+      required:
+        [id, clientName, status, linked, hasPlan, pendingCount, decidedCount]
+      properties:
+        id:
+          type: integer
+        clientName:
+          type: string
+        weddingDate:
+          type: ["string", "null"]
+        status:
+          type: string
+        notes:
+          type: ["string", "null"]
+        linked:
+          type: boolean
+          description: True when the client is linked to a couple account on Bazm.
+        hasPlan:
+          type: boolean
+        budgetTotal:
+          type: ["integer", "null"]
+          description: Sum of estimated category costs in the linked plan (UZS).
+        undecidedTotal:
+          type: ["integer", "null"]
+          description: Estimated cost tied to categories with no chosen vendor tier.
+        pendingCount:
+          type: integer
+        decidedCount:
+          type: integer
+        daysUntilWedding:
+          type: ["integer", "null"]
+    CreateOrganizerClientInput:
+      type: object
+      required: [clientName]
+      properties:
+        clientName:
+          type: string
+          minLength: 1
+          maxLength: 120
+        weddingDate:
+          type: ["string", "null"]
+          description: ISO date (YYYY-MM-DD), or null if not set yet.
+        notes:
+          type: ["string", "null"]
+          maxLength: 2000
+        shareToken:
+          type: ["string", "null"]
+          maxLength: 200
+          description: >
+            Optional budget-plan share token the couple gave the organizer
+            (the token from their read-only share link). When it matches a
+            plan, the client is linked to that couple so their budget plan
+            appears. Holding the token is the couple's consent to share.
+    OrganizerPlanSummary:
+      type: object
+      required: [city, guestCount, estimatedTotal, undecidedTotal, createdAt]
+      properties:
+        city:
+          type: string
+        guestCount:
+          type: integer
+        totalBudget:
+          type: ["integer", "null"]
+        estimatedTotal:
+          type: integer
+        undecidedTotal:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+    OrganizerChosenTier:
+      type: object
+      required: [category, estimatedCost]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        tierLevel:
+          oneOf:
+            - $ref: "#/components/schemas/TierLevel"
+            - type: "null"
+        tierName:
+          type: ["string", "null"]
+        vendorName:
+          type: ["string", "null"]
+        estimatedCost:
+          type: integer
+    OrganizerPendingCategory:
+      type: object
+      required: [category, estimatedCost]
+      properties:
+        category:
+          $ref: "#/components/schemas/PlannerCategory"
+        estimatedCost:
+          type: integer
+    OrganizerClientDetail:
+      type: object
+      required: [id, clientName, status, linked, chosenTiers, pendingCategories]
+      properties:
+        id:
+          type: integer
+        clientName:
+          type: string
+        weddingDate:
+          type: ["string", "null"]
+        status:
+          type: string
+        notes:
+          type: ["string", "null"]
+        linked:
+          type: boolean
+        daysUntilWedding:
+          type: ["integer", "null"]
+        plan:
+          oneOf:
+            - $ref: "#/components/schemas/OrganizerPlanSummary"
+            - type: "null"
+        chosenTiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrganizerChosenTier"
+        pendingCategories:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrganizerPendingCategory"
+    OrganizerUpcomingWedding:
+      type: object
+      required:
+        [id, clientName, weddingDate, daysUntilWedding, status, pendingCount]
+      properties:
+        id:
+          type: integer
+        clientName:
+          type: string
+        weddingDate:
+          type: string
+        daysUntilWedding:
+          type: integer
+        status:
+          type: string
+        pendingCount:
+          type: integer
+    OrganizerSummary:
+      type: object
+      required: [totalClients, upcomingCount, unresolvedClientCount, upcoming]
+      properties:
+        totalClients:
+          type: integer
+        upcomingCount:
+          type: integer
+        unresolvedClientCount:
+          type: integer
+        upcoming:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrganizerUpcomingWedding"

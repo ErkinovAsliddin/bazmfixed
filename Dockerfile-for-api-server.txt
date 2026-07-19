@@ -1,0 +1,38 @@
+# Build from the repo root:
+#   docker build -f artifacts/api-server/Dockerfile -t bazm-api .
+#
+# This needs the whole monorepo as build context (not just this folder)
+# because it's a pnpm workspace — the API server depends on
+# @workspace/db, @workspace/api-zod, etc. via "workspace:*".
+
+FROM node:22-slim AS base
+RUN corepack enable && corepack prepare pnpm@11.13.1 --activate
+WORKDIR /app
+
+# ---- deps: install the full workspace once ----
+FROM base AS deps
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json tsconfig.json ./
+COPY lib ./lib
+COPY artifacts/api-server ./artifacts/api-server
+COPY scripts ./scripts
+RUN pnpm install --frozen-lockfile
+
+# ---- build: typecheck shared libs, bundle the API server ----
+FROM deps AS build
+RUN pnpm run typecheck:libs
+RUN pnpm --filter @workspace/api-server run build
+
+# ---- deploy: produce a self-contained folder (bundle + only the deps that
+# esbuild couldn't bundle, e.g. @google-cloud/storage — see build.mjs
+# "external" list) ----
+FROM build AS deploy
+RUN pnpm --filter @workspace/api-server deploy --prod --legacy /deploy-output
+
+# ---- runtime: small final image, no pnpm/workspace source needed ----
+FROM node:22-slim AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=deploy /deploy-output/node_modules ./node_modules
+COPY --from=build /app/artifacts/api-server/dist ./dist
+EXPOSE 5000
+CMD ["node", "--enable-source-maps", "./dist/index.mjs"]

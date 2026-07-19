@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Bazm"
+version = "1.0.0"
+id = "artifacts/bazm"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21866
+
+[services.development]
+run = "pnpm --filter @workspace/bazm run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bazm", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/bazm/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21866"
+BASE_PATH = "/"

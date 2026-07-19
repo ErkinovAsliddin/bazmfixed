@@ -1,0 +1,771 @@
+{
+  "app": {
+    "name": "Bazm",
+    "tagline": "Plan the wedding you want, not the one you're pressured into."
+  },
+  "nav": {
+    "home": "Home",
+    "budget": "Budget Planner",
+    "vendors": "Vendors",
+    "marketplace": "Marketplace",
+    "dashboard": "Dashboard",
+    "myPlans": "My Plans",
+    "login": "Login",
+    "logout": "Logout",
+    "vendorDashboard": "Vendor Dashboard",
+    "dasturxon": "Dasturxon",
+    "sufficiency": "Quantity Check",
+    "organizerDashboard": "Organizer",
+    "myOrders": "My Orders",
+    "admin": "Admin"
+  },
+  "hero": {
+    "cta": "Start Planning",
+    "secondaryCta": "Learn More"
+  },
+  "features": {
+    "sectionTitle": "Everything you need to plan your celebration",
+    "budget": {
+      "title": "Budget Planner",
+      "description": "Track every som and stay in control of your wedding spending."
+    },
+    "marketplace": {
+      "title": "Vendor Marketplace",
+      "description": "Discover trusted vendors for every part of your celebration."
+    },
+    "dasturxon": {
+      "title": "Dasturxon Comparison",
+      "description": "Compare catering and dasturxon offers side by side."
+    },
+    "organizer": {
+      "title": "Organizer Dashboard",
+      "description": "Manage guests, timelines, and tasks in one place."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Sign in to continue planning your wedding.",
+      "submit": "Login",
+      "noAccount": "Don't have an account?",
+      "goRegister": "Register"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Start planning your wedding with Bazm.",
+      "submit": "Register",
+      "haveAccount": "Already have an account?",
+      "goLogin": "Login"
+    },
+    "fields": {
+      "name": "Your name",
+      "email": "Email",
+      "phone": "Phone number",
+      "password": "Password",
+      "role": "Role"
+    },
+    "roles": {
+      "couple": "Couple",
+      "vendor": "Vendor",
+      "organizer": "Organizer"
+    },
+    "continueWithGoogle": "Continue with Google",
+    "orContinueWith": "Or continue with",
+    "phoneNumber": "Phone number",
+    "sendCode": "Send code",
+    "enterCode": "Enter code",
+    "verifyAndSignIn": "Verify & sign in",
+    "codeSentHint": "We sent a one-time code to your phone. Enter it below to sign in.",
+    "googleNotConfigured": "Google sign-in isn't set up yet. Please use another method for now.",
+    "googleFailed": "Google sign-in failed. Please try again.",
+    "devCodeHint": "Development code: {{code}}",
+    "otpRequestFailed": "Couldn't send the code. Please try again in a moment.",
+    "otpVerifyFailed": "Invalid or expired code. Please try again."
+  },
+  "footer": {
+    "tagline": "Made for weddings across Uzbekistan.",
+    "rights": "All rights reserved."
+  },
+  "language": {
+    "label": "Language",
+    "uz": "Uzbek",
+    "ru": "Russian",
+    "en": "English"
+  },
+  "common": {
+    "comingSoon": "Coming soon",
+    "comingSoonDescription": "This section is under construction."
+  },
+  "budget": {
+    "title": "Wedding Budget Planner",
+    "subtitle": "Answer a few questions and we'll show you exactly what your wedding costs — and whether your money is enough.",
+    "form": {
+      "heading": "Tell us about your wedding",
+      "city": "City",
+      "cityPlaceholder": "Select your city",
+      "guestCount": "Number of guests",
+      "guestCountPlaceholder": "e.g. 250",
+      "totalBudget": "Total budget (UZS)",
+      "totalBudgetPlaceholder": "e.g. 200 000 000",
+      "budgetUnknown": "I don't know yet — help me figure it out",
+      "priorities": "What matters most to you?",
+      "prioritiesHint": "Rank these from most to least important. Your top two get premium recommendations.",
+      "topPriority": "Top priority",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "submit": "Calculate my budget",
+      "recalculate": "Recalculate"
+    },
+    "cities": {
+      "Tashkent": "Tashkent",
+      "Samarkand": "Samarkand",
+      "Bukhara": "Bukhara",
+      "Other": "Somewhere else"
+    },
+    "categories": {
+      "venue": "Venue",
+      "catering": "Catering",
+      "decor": "Decor",
+      "music": "Music",
+      "photography": "Photography",
+      "clothing": "Clothing"
+    },
+    "tiers": {
+      "budget": "Budget",
+      "standard": "Standard",
+      "premium": "Premium"
+    },
+    "units": {
+      "per_guest": "per guest",
+      "per_event": "per event",
+      "per_day": "per day",
+      "flat": "flat rate"
+    },
+    "results": {
+      "title": "Your wedding budget",
+      "estimatedTotal": "Estimated total",
+      "recommendedBudget": "Recommended budget",
+      "yourBudget": "Your budget",
+      "forGuests": "{{count}} guests in {{city}}",
+      "breakdown": "Cost breakdown",
+      "priority": "Priority",
+      "perGuestNote": "{{price}} × {{count}} guests",
+      "compareOptions": "Compare options for this category"
+    },
+    "sufficiency": {
+      "sufficientTitle": "Yes — your budget is enough",
+      "sufficientBody": "Your plan fits with {{amount}} to spare.",
+      "shortTitle": "Your budget is a little short",
+      "shortBody": "This plan is about {{amount}} over what you set. Here are calm, concrete ways to close the gap — without cutting corners.",
+      "unknownTitle": "Here's what a wedding like this costs",
+      "unknownBody": "Plan for around {{amount}}. Add your budget above to check whether it's enough.",
+      "surplus": "Surplus",
+      "shortfall": "Shortfall",
+      "upgradesTitle": "Ways to use the extra room",
+      "adjustmentsTitle": "Ways to close the gap",
+      "nowFits": "Now within budget",
+      "stillShort": "Still {{amount}} over",
+      "newTotalLabel": "New total"
+    },
+    "adjustments": {
+      "reduce_guests": "Reduce guests from {{from}} to {{to}}",
+      "reduce_guests_desc": "A shorter guest list is the biggest lever on catering cost.",
+      "downgrade_category": "Move {{category}} from {{from}} to {{to}}",
+      "downgrade_category_desc": "Keep everything else — just soften one category.",
+      "downgrade_all": "Choose budget-friendly options in every category",
+      "downgrade_all_desc": "The most affordable tier across the board."
+    },
+    "upgrades": {
+      "label": "Upgrade {{category}} to premium"
+    },
+    "scenarios": {
+      "title": "Compare by guest count",
+      "subtitle": "The same wedding at different sizes — useful when the guest list keeps growing.",
+      "current": "Your plan",
+      "minus30": "30% fewer guests",
+      "minus50": "Half the guests",
+      "guests": "{{count}} guests",
+      "total": "Total"
+    },
+    "actions": {
+      "save": "Save this plan",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "share": "Share with family",
+      "copyLink": "Copy share link",
+      "copied": "Link copied",
+      "signInToSave": "Sign in to save and share this plan",
+      "backToPlanner": "Back to the planner"
+    },
+    "titleField": {
+      "label": "Name this plan (optional)",
+      "placeholder": "e.g. Our September wedding"
+    },
+    "plans": {
+      "title": "My Plans",
+      "subtitle": "Your saved wedding budgets.",
+      "empty": "You haven't saved any plans yet.",
+      "createFirst": "Create your first budget",
+      "untitled": "Untitled plan",
+      "open": "Open",
+      "loginRequired": "Please sign in to see your saved plans."
+    },
+    "share": {
+      "heading": "Our wedding budget",
+      "intro": "We've thought this through carefully. Here's the plan and the math behind it.",
+      "meta": "{{count}} guests · {{city}}",
+      "totalLabel": "Total we've planned for",
+      "footer": "Planned with Bazm",
+      "notFound": "This shared plan could not be found."
+    },
+    "quantityBridge": {
+      "title": "Check if your planned quantities will be enough",
+      "subtitle": "Get recommended food and product amounts for your guest count so nothing runs out."
+    },
+    "city": "City",
+    "guestCount": "Number of guests",
+    "totalBudget": "Total budget (UZS)",
+    "priorityBadge": "Priority",
+    "comingSoonCity": "Coming soon in {{city}}",
+    "selectVendor": "Select",
+    "selected": "Selected",
+    "runningTotal": "Running total",
+    "ofBudget": "of {{budget}}",
+    "withinBudget": "Within budget",
+    "overBudget": "Over budget",
+    "noBudgetSet": "No budget set",
+    "difference": "(difference {{amount}})",
+    "savePlan": "Save plan",
+    "selectAtLeastOne": "Select at least one vendor to save",
+    "saveError": "Could not save your plan",
+    "pickerSubtitle": "Pick verified vendors for each part of your wedding and see the running total.",
+    "pickerPrompt": "Choose a city and enter your guest count to see vendor options."
+  },
+  "vendors": {
+    "title": "Wedding Vendors",
+    "subtitle": "Browse trusted venues, caterers, decorators and more — compare tiers and prices side by side.",
+    "empty": "No vendors match your filters yet.",
+    "filters": {
+      "category": "Category",
+      "city": "City",
+      "allCategories": "All categories",
+      "allCities": "All cities",
+      "clear": "Clear filters"
+    },
+    "card": {
+      "startingFrom": "From",
+      "verified": "Verified vendor"
+    },
+    "categories": {
+      "venue": "Venues",
+      "catering": "Catering",
+      "decor": "Decor",
+      "music": "Music",
+      "photography": "Photography",
+      "clothing": "Attire",
+      "rental_items": "Rentals",
+      "wedding_products": "Wedding products"
+    },
+    "detail": {
+      "back": "All vendors",
+      "notFound": "This vendor could not be found.",
+      "tiersTitle": "Packages & pricing",
+      "tiersSubtitle": "Compare this vendor's tiers side by side.",
+      "compareAll": "Compare all in this category",
+      "noTiers": "This vendor hasn't published any packages yet."
+    },
+    "contact": {
+      "button": "Contact vendor",
+      "dialogTitle": "Contact {{name}}",
+      "dialogDesc": "Send a quick note and we'll reveal their phone number. Your inquiry is shared with the vendor.",
+      "message": "Message (optional)",
+      "messagePlaceholder": "Tell them about your wedding date, guest count, or questions…",
+      "send": "Get contact details",
+      "sending": "Sending…",
+      "close": "Close",
+      "phoneRevealed": "Here's how to reach them",
+      "phoneRevealedDesc": "Tap the number to call. The vendor has been notified of your interest.",
+      "noPhone": "This vendor hasn't added a phone number yet.",
+      "error": "Something went wrong. Please try again."
+    },
+    "comparison": {
+      "title": "{{category}} — compare all",
+      "subtitle": "Every package from every vendor in this category, sorted by price.",
+      "backToVendors": "All vendors",
+      "vendor": "Vendor",
+      "tier": "Package",
+      "unitPrice": "Price",
+      "estCost": "Est. total",
+      "action": "Actions",
+      "viewVendor": "View",
+      "empty": "No packages match your filters.",
+      "sortBy": "Sort by",
+      "priceLowHigh": "Price: low to high",
+      "priceHighLow": "Price: high to low",
+      "budgetNote": "Showing options for your remaining budget of {{amount}}.",
+      "onlyFits": "Only show what fits my budget",
+      "resultCount": "{{count}} packages"
+    },
+    "dashboard": {
+      "title": "Vendor Dashboard",
+      "subtitle": "Manage your profile, packages and pricing.",
+      "notVendor": "This area is only available to vendor accounts.",
+      "inquiriesReceived": "Inquiries received",
+      "profile": "Business profile",
+      "businessName": "Business name",
+      "category": "Category",
+      "city": "City",
+      "phone": "Phone number",
+      "description": "Description",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "saved": "Profile saved.",
+      "createProfile": "Create profile",
+      "createFirst": "Save your profile above to start adding packages.",
+      "invalidProfile": "Please add a business name and city.",
+      "tiers": "Packages & pricing",
+      "addTier": "Add package",
+      "noTiers": "You haven't added any packages yet.",
+      "tierName": "Package name",
+      "price": "Price",
+      "unit": "Unit",
+      "tierDescription": "Description",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this package?",
+      "editTier": "Edit package",
+      "newTier": "New package",
+      "saveTier": "Save package",
+      "cancel": "Cancel",
+      "tierSaved": "Package saved.",
+      "tierDeleted": "Package deleted.",
+      "invalidTier": "Please add a name and a valid price.",
+      "saveError": "Something went wrong. Please try again.",
+      "tabProfile": "Profile",
+      "tabProducts": "Products",
+      "tabOrders": "Orders",
+      "tierPhotos": "Tier photos"
+    },
+    "address": "Address",
+    "addressPlaceholder": "Street, district, city",
+    "photos": "Photos",
+    "photosHint": "Add at least 2 photos",
+    "pendingApproval": "New or edited profiles are reviewed by our team and appear to couples only after admin approval.",
+    "noVendors": "No verified vendors yet",
+    "comingSoon": "We are onboarding trusted vendors now. Check back soon.",
+    "gallery": "Gallery"
+  },
+  "dasturxon": {
+    "eyebrow": "Real weddings, real tables",
+    "title": "Dasturxon Comparison",
+    "subtitle": "See what other couples actually spent on their wedding table — and how yours compares.",
+    "shareCta": "Share your dasturxon",
+    "shareCtaGuest": "Log in to share yours",
+    "dishes": {
+      "plov": "Plov (osh)",
+      "salads": "Salads",
+      "grilled_meats": "Grilled meats (shashlik)",
+      "bread": "Non (bread)",
+      "appetizers": "Cold appetizers",
+      "sweets": "Sweets",
+      "fruit": "Fruit",
+      "tea": "Choy (tea)",
+      "drinks": "Drinks",
+      "dasturxon_spread": "Dasturxon spread"
+    },
+    "card": {
+      "headline": "A wedding in {{city}} · {{count}} guests",
+      "totalSpend": "Total food spend",
+      "perGuest": "Per guest",
+      "onTheTable": "On the table",
+      "andMore": "+{{count}} more"
+    },
+    "filters": {
+      "city": "City",
+      "allCities": "All cities",
+      "minGuests": "Min guests",
+      "maxGuests": "Max guests",
+      "any": "Any",
+      "clear": "Clear"
+    },
+    "stats": {
+      "title": "Average in {{scope}}",
+      "allCities": "all cities",
+      "empty": "No public weddings here yet — be the first to share.",
+      "perGuest": "average per guest",
+      "avgTotal": "Avg total spend",
+      "avgGuests": "Avg guests",
+      "basedOn": "Based on {{count}} shared weddings"
+    },
+    "compare": {
+      "title": "Your dasturxon vs. similar weddings",
+      "noPlan": "Create a budget plan to compare your dasturxon with similar weddings.",
+      "planCta": "Plan your budget",
+      "yours": "Your plan",
+      "similar": "Similar weddings",
+      "noSimilar": "Not enough similar weddings shared yet — check back soon.",
+      "range": "{{count}} weddings with {{min}}–{{max}} guests",
+      "avgPerGuest": "average per guest",
+      "inLine": "Your food budget is right in line with similar weddings.",
+      "above": "You're planning about {{amount}} more per guest than similar weddings ({{pct}}% above).",
+      "below": "You're planning about {{amount}} less per guest than similar weddings ({{pct}}% below).",
+      "commonItems": "Commonly on the table at similar weddings"
+    },
+    "mine": {
+      "title": "Your shared weddings",
+      "public": "Public",
+      "private": "Private"
+    },
+    "feed": {
+      "title": "Browse weddings",
+      "empty": "No weddings match these filters yet."
+    },
+    "submit": {
+      "title": "Share your dasturxon",
+      "subtitle": "Help other couples plan by sharing what your wedding table looked like.",
+      "city": "City",
+      "guestCount": "Guest count",
+      "totalSpend": "Total food spend (UZS)",
+      "items": "What was on the table",
+      "itemName": "Dish",
+      "qty": "Qty",
+      "cost": "Cost",
+      "removeItem": "Remove dish",
+      "addItem": "Add dish",
+      "makePublic": "Share publicly",
+      "anonNote": "Public entries are anonymized — your name is never shown.",
+      "cancel": "Cancel",
+      "share": "Share",
+      "saving": "Sharing…",
+      "success": "Thank you for sharing your dasturxon!",
+      "error": "Couldn't share your dasturxon. Please try again.",
+      "invalid": "Please add guest count, food spend, and at least one dish.",
+      "photos": "Photos",
+      "photosHint": "Add at least 2 photos of your dasturxon to share it."
+    },
+    "gallery": "Photo gallery"
+  },
+  "marketplace": {
+    "eyebrow": "Wedding goods",
+    "subtitle": "Order the physical goods for your celebration — tableware, décor and rentals — in the amounts you actually need.",
+    "cart": "Cart",
+    "cartTitle": "Your cart",
+    "cartEmpty": "Your cart is empty.",
+    "addToCart": "Add",
+    "inCart": "In cart ({{count}})",
+    "perUnit": "per {{unit}}",
+    "total": "Total",
+    "clearCart": "Clear cart",
+    "remove": "Remove",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "checkoutSoon": "Checkout is coming soon — your cart is saved on this device.",
+    "empty": "No products in this category yet.",
+    "categories": {
+      "all": "All",
+      "decor": "Décor",
+      "disposable_tableware": "Disposable tableware",
+      "rental_items": "Rentals",
+      "gifts_sarpo": "Gifts & sarpo",
+      "food_products": "Food products"
+    },
+    "outOfStock": "Out of stock",
+    "inStock": "{{count}} in stock",
+    "maxStock": "Maximum available quantity reached.",
+    "checkout": "Checkout",
+    "checkingOut": "Placing order…",
+    "loginToCheckout": "Log in to checkout",
+    "checkoutSuccess": "Order placed! Created {{count}} order(s).",
+    "checkoutError": "Couldn't place your order. Please try again."
+  },
+  "sufficiency": {
+    "eyebrow": "Will it be enough?",
+    "title": "Quantity Calculator",
+    "subtitle": "Tell us your guest count and how long the celebration runs — we'll recommend how much of each dish and product to prepare so no table runs empty.",
+    "form": {
+      "guestCount": "Number of guests",
+      "durationHours": "Event duration (hours)",
+      "categories": "What are you serving?",
+      "calculate": "Calculate quantities"
+    },
+    "units": {
+      "kg": "kg",
+      "piece": "pcs",
+      "liter": "L",
+      "set": "sets"
+    },
+    "categories": {
+      "plov": {
+        "label": "Osh (plov)",
+        "note": "About 300 g of cooked plov per guest — the heart of the Uzbek table, always served generously."
+      },
+      "salads": {
+        "label": "Salads",
+        "note": "Around 150 g per guest across assorted salads (achichuk, olivye and more)."
+      },
+      "meat": {
+        "label": "Meat dishes",
+        "note": "Roughly 200 g per guest for kabob and grilled or boiled meats."
+      },
+      "bread": {
+        "label": "Non (bread)",
+        "note": "About half a round non per guest — bread is never in short supply at a wedding."
+      },
+      "fruit": {
+        "label": "Fruit",
+        "note": "Around 200 g of seasonal fruit per guest for the table."
+      },
+      "sweets": {
+        "label": "Sweets & desserts",
+        "note": "About 150 g per guest of sweets, pastries and cakes."
+      },
+      "drinks": {
+        "label": "Drinks & tea",
+        "note": "Around 0.5 L per guest, scaled up for longer celebrations when guests linger."
+      },
+      "tableware": {
+        "label": "Disposable tableware",
+        "note": "One full set per guest — plate, cup and cutlery — with spares for the buffer."
+      }
+    },
+    "results": {
+      "bufferTitle": "Includes a {{percent}}% safety buffer",
+      "bufferBody": "This includes a small buffer so you don't run out if guests bring plus-ones or eat more than expected.",
+      "rangeNote": "headcount minimum {{strict}}",
+      "durationBadge": "Scales with duration",
+      "buyLine": "{{name}} — {{total}} for the recommended amount",
+      "buyButton": "Buy the recommended quantity",
+      "outOfStock": "Not enough in stock",
+      "addedTitle": "Added to cart",
+      "addedBody": "{{quantity}} × {{name}} added to your cart.",
+      "footerNote": "Ready to order?",
+      "viewCart": "Open the marketplace",
+      "error": "Something went wrong calculating quantities. Please try again."
+    }
+  },
+  "organizer": {
+    "title": "Organizer Dashboard",
+    "subtitle": "Track your couples, their budgets, and what still needs deciding.",
+    "notOrganizer": "This dashboard is only available for organizer accounts.",
+    "noDate": "No date set",
+    "linked": "Linked",
+    "manual": "Manual",
+    "pendingCount": "{{count}} pending",
+    "inDays": "in {{count}} days",
+    "noClients": "No clients yet. Add your first client to get started.",
+    "noUpcoming": "No weddings in the next 30 days.",
+    "upcomingTitle": "Upcoming weddings",
+    "upcomingSubtitle": "Weddings in the next 30 days, prioritized for outreach.",
+    "clientsTitle": "Clients",
+    "clientsSubtitle": "All the couples you're planning for.",
+    "stats": {
+      "totalClients": "Total clients",
+      "upcoming": "Upcoming (30 days)",
+      "unresolved": "Clients with pending decisions"
+    },
+    "table": {
+      "client": "Client",
+      "weddingDate": "Wedding date",
+      "status": "Status",
+      "budget": "Budget",
+      "undecided": "Undecided",
+      "pending": "Pending"
+    },
+    "statuses": {
+      "active": "Active",
+      "planning": "Planning",
+      "confirmed": "Confirmed"
+    },
+    "add": {
+      "button": "Add client",
+      "title": "Add a client",
+      "subtitle": "Track a couple even if they're not on Bazm yet.",
+      "clientName": "Client name",
+      "clientNamePlaceholder": "e.g. Aziz & Malika",
+      "weddingDate": "Wedding date (optional)",
+      "notes": "Notes (optional)",
+      "cancel": "Cancel",
+      "save": "Add client",
+      "saving": "Adding...",
+      "success": "Client added",
+      "error": "Could not add client",
+      "nameRequired": "Please enter a client name",
+      "shareToken": "Budget-plan share link/token (optional)",
+      "shareTokenPlaceholder": "Paste the couple's share link or token",
+      "shareTokenHint": "If the couple gave you their budget-plan share link, paste it here to link their plan. Only they can share it."
+    },
+    "detail": {
+      "back": "Back to dashboard",
+      "notFound": "Client not found.",
+      "planTitle": "Budget plan",
+      "city": "City",
+      "guests": "Guests",
+      "estimatedTotal": "Estimated total",
+      "undecidedTotal": "Undecided",
+      "progress": "Decisions made",
+      "decidedOf": "{{decided}} of {{total}} decided",
+      "chosenTitle": "Chosen vendors",
+      "noChosen": "No vendors chosen yet.",
+      "vendorUnknown": "Vendor not specified",
+      "pendingTitle": "Pending decisions",
+      "noPending": "Everything is decided.",
+      "estimate": "Est.",
+      "noPlanLinked": "This couple hasn't shared a budget plan yet.",
+      "noPlanManual": "This client isn't linked to a Bazm account, so there's no budget plan to show."
+    }
+  },
+  "orders": {
+    "eyebrow": "Your purchases",
+    "title": "My Orders",
+    "empty": "You haven't placed any orders yet.",
+    "browseMarketplace": "Browse the marketplace",
+    "orderNumber": "Order #{{id}}",
+    "cancel": "Cancel",
+    "cancelConfirm": "Cancel this order? Stock will be returned.",
+    "cancelled": "Order cancelled.",
+    "cancelError": "Only pending orders can be cancelled.",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "fulfilled": "Fulfilled",
+      "cancelled": "Cancelled"
+    }
+  },
+  "seller": {
+    "products": {
+      "title": "My Products",
+      "add": "Add product",
+      "addTitle": "Add product",
+      "editTitle": "Edit product",
+      "name": "Name",
+      "category": "Category",
+      "price": "Price per unit",
+      "unit": "Unit",
+      "unitPlaceholder": "e.g. piece, set, kg",
+      "stock": "Stock",
+      "status": "Status",
+      "description": "Description",
+      "photos": "Photo URLs",
+      "photosPlaceholder": "https://…",
+      "photosHint": "One URL per line. The first photo is shown on the card.",
+      "active": "Active",
+      "activeHint": "Inactive products are hidden from the marketplace.",
+      "activeLabel": "Active",
+      "inactiveLabel": "Hidden",
+      "save": "Save",
+      "saving": "Saving…",
+      "edit": "Edit",
+      "empty": "You haven't added any products yet.",
+      "created": "Product created.",
+      "updated": "Product updated.",
+      "saveError": "Couldn't save the product.",
+      "invalid": "Please fill in all required fields."
+    },
+    "orders": {
+      "title": "Incoming Orders",
+      "empty": "No orders yet.",
+      "statusUpdated": "Order status updated.",
+      "statusError": "Couldn't update the order."
+    }
+  },
+  "empty": {
+    "plansDesc": "Start your first budget plan and we'll map every som to what matters most.",
+    "vendorsDesc": "Try widening your filters or exploring a different category.",
+    "dasturxonDesc": "No weddings match these filters yet. Adjust them, or be the first to share a real dasturxon.",
+    "dasturxonCta": "Share your dasturxon",
+    "cartDesc": "Add décor, tableware, and gifts you love — they'll appear here.",
+    "cartCta": "Browse the marketplace",
+    "productsDesc": "Nothing in this category yet. Check back soon or explore all products.",
+    "ordersDesc": "When you order from the marketplace, your orders will show up here.",
+    "sellerProductsDesc": "List your first product to start selling to couples planning their toy.",
+    "sellerOrdersDesc": "Incoming orders from couples will appear here once they buy.",
+    "comparisonDesc": "Try adjusting your filters to compare more packages."
+  },
+  "upload": {
+    "add": "Add photo",
+    "uploading": "Uploading…",
+    "remove": "Remove image",
+    "cover": "Cover",
+    "hint": "Up to {{max}} images. JPG or PNG, max 5 MB each. The first image is the cover.",
+    "error": "Upload failed. Please try again.",
+    "notImage": "Only image files are allowed.",
+    "tooLarge": "Image is too large (max 5 MB)."
+  },
+  "landing": {
+    "badge": "Uzbekistan's wedding planning platform",
+    "heroSubtitle": "From your first budget to the last bouquet — Bazm brings trusted vendors, transparent prices, and every detail of your to'y together in one calm, beautiful place.",
+    "heroSecondary": "Browse vendors",
+    "stats": {
+      "categories": {
+        "value": "8",
+        "label": "Vendor categories"
+      },
+      "pricing": {
+        "value": "100%",
+        "label": "Transparent prices"
+      },
+      "fees": {
+        "value": "0",
+        "label": "Hidden fees"
+      },
+      "anytime": {
+        "value": "24/7",
+        "label": "Plan anytime"
+      }
+    },
+    "how": {
+      "title": "Plan your to'y in three calm steps",
+      "subtitle": "No spreadsheets, no guesswork, no pressure.",
+      "step1": {
+        "title": "Set your budget",
+        "desc": "Tell us your guest count and budget. Bazm splits it across venue, catering, decor and more — automatically."
+      },
+      "step2": {
+        "title": "Compare real vendors",
+        "desc": "Browse verified vendors and dasturxon offers with real photos and side-by-side prices."
+      },
+      "step3": {
+        "title": "Book with confidence",
+        "desc": "Reserve what you love, track every order, and keep your whole celebration in one place."
+      }
+    },
+    "categories": {
+      "title": "For every part of your celebration",
+      "subtitle": "Verified vendors across every category your to'y needs.",
+      "venue": "Venues",
+      "catering": "Catering",
+      "decor": "Decor",
+      "music": "Music & Show",
+      "photography": "Photography",
+      "clothing": "Attire",
+      "cta": "Explore the marketplace"
+    },
+    "values": {
+      "title": "Why couples choose Bazm",
+      "v1": {
+        "title": "Transparent pricing",
+        "desc": "Real prices from real vendors. Compare offers side by side — no hidden fees, ever."
+      },
+      "v2": {
+        "title": "No family pressure",
+        "desc": "Plan the wedding you actually want. Your budget, your choices, your pace."
+      },
+      "v3": {
+        "title": "Verified vendors",
+        "desc": "Every vendor is reviewed, so you can book with confidence."
+      },
+      "v4": {
+        "title": "In your language",
+        "desc": "Fully available in O'zbek, Русский and English."
+      }
+    },
+    "sellers": {
+      "badge": "For vendors",
+      "title": "Grow your wedding business with Bazm",
+      "desc": "List your services, showcase real photos, and reach couples who are actively planning their to'y — free to join.",
+      "cta": "Become a vendor"
+    },
+    "finalTitle": "Your to'y, beautifully in order.",
+    "finalSubtitle": "Join couples planning calmer, clearer, more joyful weddings across Uzbekistan."
+  }
+}

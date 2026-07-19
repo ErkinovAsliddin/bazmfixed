@@ -1,0 +1,771 @@
+{
+  "app": {
+    "name": "Bazm",
+    "tagline": "O'zingiz xohlagan to'yni rejalashtiring, sizga majburlangan to'yni emas."
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "budget": "Byudjet rejalashtiruvchi",
+    "vendors": "Xizmat ko'rsatuvchilar",
+    "marketplace": "Bozor",
+    "dashboard": "Boshqaruv paneli",
+    "myPlans": "Mening rejalarim",
+    "login": "Kirish",
+    "logout": "Chiqish",
+    "vendorDashboard": "Vendor kabineti",
+    "dasturxon": "Dasturxon",
+    "sufficiency": "Miqdor hisoblagich",
+    "organizerDashboard": "Tashkilotchi",
+    "myOrders": "Buyurtmalarim",
+    "admin": "Admin"
+  },
+  "hero": {
+    "cta": "Rejalashtirishni boshlash",
+    "secondaryCta": "Batafsil ma'lumot"
+  },
+  "features": {
+    "sectionTitle": "To'yingizni birgalikda tayyorlaymiz",
+    "budget": {
+      "title": "Byudjet rejalashtiruvchi",
+      "description": "Har bir so'mni nazorat qiling va to'y xarajatlaringizni oson boshqaring."
+    },
+    "marketplace": {
+      "title": "Xizmatlar bozori",
+      "description": "Bayramingizning har bir qismi uchun ishonchli xizmat ko'rsatuvchilarni toping."
+    },
+    "dasturxon": {
+      "title": "Dasturxon taqqoslash",
+      "description": "Ovqatlanish va dasturxon takliflarini yonma-yon solishtiring."
+    },
+    "organizer": {
+      "title": "Tashkilotchi paneli",
+      "description": "Mehmonlar, jadval va vazifalarni bir joyda boshqaring."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Hisobingizga kiring",
+      "subtitle": "To'y rejangizni davom ettirish uchun kiring.",
+      "submit": "Kirish",
+      "noAccount": "Hisobingiz yo'qmi?",
+      "goRegister": "Ro'yxatdan o'tish"
+    },
+    "register": {
+      "title": "Hisob yaratish",
+      "subtitle": "Bazm bilan to'y rejalashtirishni boshlang.",
+      "submit": "Ro'yxatdan o'tish",
+      "haveAccount": "Hisobingiz bormi?",
+      "goLogin": "Kirish"
+    },
+    "fields": {
+      "name": "Ismingiz",
+      "email": "Elektron pochta",
+      "phone": "Telefon raqami",
+      "password": "Parol",
+      "role": "Rol"
+    },
+    "roles": {
+      "couple": "Kelin-kuyov",
+      "vendor": "Xizmat ko'rsatuvchi",
+      "organizer": "Tashkilotchi"
+    },
+    "continueWithGoogle": "Google bilan davom etish",
+    "orContinueWith": "Yoki quyidagi orqali kiring",
+    "phoneNumber": "Telefon raqami",
+    "sendCode": "Kod yuborish",
+    "enterCode": "Kodni kiriting",
+    "verifyAndSignIn": "Tasdiqlash va kirish",
+    "codeSentHint": "Telefoningizga bir martalik kod yubordik. Kirish uchun uni quyida kiriting.",
+    "googleNotConfigured": "Google orqali kirish hali sozlanmagan. Iltimos, hozircha boshqa usuldan foydalaning.",
+    "googleFailed": "Google orqali kirish amalga oshmadi. Qayta urinib ko'ring.",
+    "devCodeHint": "Ishlab chiqish kodi: {{code}}",
+    "otpRequestFailed": "Kodni yuborib bo'lmadi. Bir ozdan so'ng qayta urinib ko'ring.",
+    "otpVerifyFailed": "Kod noto'g'ri yoki muddati o'tgan. Qayta urinib ko'ring."
+  },
+  "footer": {
+    "tagline": "O'zbekiston bo'ylab to'ylar uchun yaratilgan.",
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "language": {
+    "label": "Til",
+    "uz": "O'zbekcha",
+    "ru": "Ruscha",
+    "en": "Inglizcha"
+  },
+  "common": {
+    "comingSoon": "Tez orada",
+    "comingSoonDescription": "Bu bo'lim tayyorlanmoqda."
+  },
+  "budget": {
+    "title": "To'y byudjetini rejalashtiruvchi",
+    "subtitle": "Bir nechta savolga javob bering — biz to'yingiz qancha turishini va pulingiz yetarli yoki yo'qligini aniq ko'rsatamiz.",
+    "form": {
+      "heading": "To'yingiz haqida gapiring",
+      "city": "Shahar",
+      "cityPlaceholder": "Shaharni tanlang",
+      "guestCount": "Mehmonlar soni",
+      "guestCountPlaceholder": "masalan, 250",
+      "totalBudget": "Umumiy byudjet (so'm)",
+      "totalBudgetPlaceholder": "masalan, 200 000 000",
+      "budgetUnknown": "Hali bilmayman — hisoblashga yordam bering",
+      "priorities": "Siz uchun eng muhimi nima?",
+      "prioritiesHint": "Muhimlik bo'yicha tartiblang. Yuqoridagi ikkitasi premium tavsiyalar oladi.",
+      "topPriority": "Ustuvor",
+      "moveUp": "Yuqoriga",
+      "moveDown": "Pastga",
+      "submit": "Byudjetimni hisoblash",
+      "recalculate": "Qayta hisoblash"
+    },
+    "cities": {
+      "Tashkent": "Toshkent",
+      "Samarkand": "Samarqand",
+      "Bukhara": "Buxoro",
+      "Other": "Boshqa shahar"
+    },
+    "categories": {
+      "venue": "To'yxona",
+      "catering": "Katering",
+      "decor": "Bezak",
+      "music": "Musiqa",
+      "photography": "Suratga olish",
+      "clothing": "Kiyim"
+    },
+    "tiers": {
+      "budget": "Tejamkor",
+      "standard": "Standart",
+      "premium": "Premium"
+    },
+    "units": {
+      "per_guest": "har mehmon uchun",
+      "per_event": "har tadbir uchun",
+      "per_day": "har kun uchun",
+      "flat": "belgilangan narx"
+    },
+    "results": {
+      "title": "Sizning to'y byudjetingiz",
+      "estimatedTotal": "Taxminiy summa",
+      "recommendedBudget": "Tavsiya etilgan byudjet",
+      "yourBudget": "Sizning byudjetingiz",
+      "forGuests": "{{city}} shahrida {{count}} mehmon",
+      "breakdown": "Xarajatlar taqsimoti",
+      "priority": "Ustuvor",
+      "perGuestNote": "{{price}} × {{count}} mehmon",
+      "compareOptions": "Bu turkumdagi variantlarni solishtirish"
+    },
+    "sufficiency": {
+      "sufficientTitle": "Ha — byudjetingiz yetarli",
+      "sufficientBody": "Rejangiz yetadi, yana {{amount}} ortib qoladi.",
+      "shortTitle": "Byudjet biroz yetishmayapti",
+      "shortBody": "Bu reja siz belgilagan byudjetdan taxminan {{amount}} ortiq. Sifatdan voz kechmasdan, byudjetga sig'ishning xotirjam va aniq yo'llari:",
+      "unknownTitle": "Bunday to'y qancha turishi",
+      "unknownBody": "Taxminan {{amount}} ga reja qiling. Yetarli yoki yo'qligini bilish uchun yuqorida byudjetingizni kiriting.",
+      "surplus": "Ortiqcha",
+      "shortfall": "Yetishmaydi",
+      "upgradesTitle": "Ortiqcha mablag'dan foydalanish",
+      "adjustmentsTitle": "Byudjetga sig'ish yo'llari",
+      "nowFits": "Endi byudjetga sig'adi",
+      "stillShort": "Yana {{amount}} ortiq",
+      "newTotalLabel": "Yangi summa"
+    },
+    "adjustments": {
+      "reduce_guests": "Mehmonlarni {{from}} tadan {{to}} taga kamaytirish",
+      "reduce_guests_desc": "Mehmonlar sonini kamaytirish katering xarajatiga eng kuchli ta'sir qiladi.",
+      "downgrade_category": "«{{category}}» ni {{from}} dan {{to}} ga o'zgartirish",
+      "downgrade_category_desc": "Qolgan hammasini saqlang — faqat bitta yo'nalishni yengillashtiring.",
+      "downgrade_all": "Barcha yo'nalishlarda tejamkor variantlarni tanlash",
+      "downgrade_all_desc": "Barcha bo'yicha eng arzon daraja."
+    },
+    "upgrades": {
+      "label": "«{{category}}» ni premiumga ko'tarish"
+    },
+    "scenarios": {
+      "title": "Mehmonlar soni bo'yicha taqqoslash",
+      "subtitle": "Xuddi shu to'y turli o'lchamlarda — mehmonlar ro'yxati o'sib borganda foydali.",
+      "current": "Sizning rejangiz",
+      "minus30": "30% kam mehmon",
+      "minus50": "Yarmi mehmon",
+      "guests": "{{count}} mehmon",
+      "total": "Jami"
+    },
+    "actions": {
+      "save": "Bu rejani saqlash",
+      "saving": "Saqlanmoqda…",
+      "saved": "Saqlandi",
+      "share": "Oila bilan ulashish",
+      "copyLink": "Havolani nusxalash",
+      "copied": "Havola nusxalandi",
+      "signInToSave": "Rejani saqlash va ulashish uchun tizimga kiring",
+      "backToPlanner": "Rejalashtiruvchiga qaytish"
+    },
+    "titleField": {
+      "label": "Rejaga nom bering (ixtiyoriy)",
+      "placeholder": "masalan, Sentabrdagi to'yimiz"
+    },
+    "plans": {
+      "title": "Mening rejalarim",
+      "subtitle": "Saqlangan to'y byudjetlaringiz.",
+      "empty": "Siz hali reja saqlamadingiz.",
+      "createFirst": "Birinchi byudjetingizni yarating",
+      "untitled": "Nomsiz reja",
+      "open": "Ochish",
+      "loginRequired": "Saqlangan rejalarni ko'rish uchun tizimga kiring."
+    },
+    "share": {
+      "heading": "Bizning to'y byudjetimiz",
+      "intro": "Biz buni sinchkovlik bilan o'yladik. Mana reja va uning ortidagi hisob-kitob.",
+      "meta": "{{count}} mehmon · {{city}}",
+      "totalLabel": "Biz mo'ljallagan umumiy summa",
+      "footer": "Bazm bilan rejalashtirilgan",
+      "notFound": "Bu ulashilgan reja topilmadi."
+    },
+    "quantityBridge": {
+      "title": "Rejalashtirilgan miqdor yetarli bo'ladimi, tekshiring",
+      "subtitle": "Mehmonlar soniga mos taom va mahsulotlarning tavsiya etilgan miqdorini bilib oling — hech narsa yetmay qolmasin."
+    },
+    "city": "Shahar",
+    "guestCount": "Mehmonlar soni",
+    "totalBudget": "Umumiy byudjet (UZS)",
+    "priorityBadge": "Ustuvor",
+    "comingSoonCity": "{{city}} shahrida tez orada",
+    "selectVendor": "Tanlash",
+    "selected": "Tanlandi",
+    "runningTotal": "Joriy jami",
+    "ofBudget": "{{budget}} dan",
+    "withinBudget": "Byudjet doirasida",
+    "overBudget": "Byudjetdan oshgan",
+    "noBudgetSet": "Byudjet kiritilmagan",
+    "difference": "(farq {{amount}})",
+    "savePlan": "Rejani saqlash",
+    "selectAtLeastOne": "Saqlash uchun kamida bitta yetkazib beruvchini tanlang",
+    "saveError": "Rejani saqlab bo'lmadi",
+    "pickerSubtitle": "To'yingizning har bir qismi uchun tasdiqlangan yetkazib beruvchilarni tanlang va jami summani kuzating.",
+    "pickerPrompt": "Yetkazib beruvchilar variantlarini ko'rish uchun shahar tanlang va mehmonlar sonini kiriting."
+  },
+  "vendors": {
+    "title": "To'y vendorlari",
+    "subtitle": "To'yxona, katering, bezak va boshqalar — paketlar va narxlarni yonma-yon solishtiring.",
+    "empty": "Filtrlaringizga mos vendor topilmadi.",
+    "filters": {
+      "category": "Turkum",
+      "city": "Shahar",
+      "allCategories": "Barcha turkumlar",
+      "allCities": "Barcha shaharlar",
+      "clear": "Tozalash"
+    },
+    "card": {
+      "startingFrom": "dan",
+      "verified": "Tasdiqlangan vendor"
+    },
+    "categories": {
+      "venue": "To'yxonalar",
+      "catering": "Katering",
+      "decor": "Bezak",
+      "music": "Musiqa",
+      "photography": "Fotografiya",
+      "clothing": "Liboslar",
+      "rental_items": "Ijara",
+      "wedding_products": "To'y mahsulotlari"
+    },
+    "detail": {
+      "back": "Barcha vendorlar",
+      "notFound": "Vendor topilmadi.",
+      "tiersTitle": "Paketlar va narxlar",
+      "tiersSubtitle": "Bu vendorning paketlarini solishtiring.",
+      "compareAll": "Turkumdagi barchasini solishtirish",
+      "noTiers": "Bu vendor hali paket qo'shmagan."
+    },
+    "contact": {
+      "button": "Bog'lanish",
+      "dialogTitle": "{{name}} bilan bog'lanish",
+      "dialogDesc": "Qisqa xabar qoldiring, telefon raqamini ko'rsatamiz. So'rovingiz vendorga yuboriladi.",
+      "message": "Xabar (ixtiyoriy)",
+      "messagePlaceholder": "To'y sanasi, mehmonlar soni yoki savollaringizni yozing…",
+      "send": "Kontaktlarni ko'rsatish",
+      "sending": "Yuborilmoqda…",
+      "close": "Yopish",
+      "phoneRevealed": "Bog'lanish uchun",
+      "phoneRevealedDesc": "Qo'ng'iroq qilish uchun raqamni bosing. Vendor qiziqishingizdan xabardor qilindi.",
+      "noPhone": "Bu vendor hali telefon raqamini qo'shmagan.",
+      "error": "Xatolik yuz berdi. Qayta urinib ko'ring."
+    },
+    "comparison": {
+      "title": "{{category}} — solishtirish",
+      "subtitle": "Bu turkumdagi barcha vendorlarning barcha paketlari, narx bo'yicha.",
+      "backToVendors": "Barcha vendorlar",
+      "vendor": "Vendor",
+      "tier": "Paket",
+      "unitPrice": "Narx",
+      "estCost": "Taxminiy jami",
+      "action": "Amallar",
+      "viewVendor": "Ochish",
+      "empty": "Filtrlaringizga mos paket yo'q.",
+      "sortBy": "Saralash",
+      "priceLowHigh": "Narx: arzondan qimmatga",
+      "priceHighLow": "Narx: qimmatdan arzonga",
+      "budgetNote": "Qolgan {{amount}} byudjetingizga mos variantlar ko'rsatilmoqda.",
+      "onlyFits": "Faqat byudjetga mosini ko'rsatish",
+      "resultCount": "{{count}} ta paket"
+    },
+    "dashboard": {
+      "title": "Vendor kabineti",
+      "subtitle": "Profil, paketlar va narxlarni boshqaring.",
+      "notVendor": "Bu bo'lim faqat vendor hisoblari uchun.",
+      "inquiriesReceived": "Kelgan so'rovlar",
+      "profile": "Biznes profili",
+      "businessName": "Biznes nomi",
+      "category": "Turkum",
+      "city": "Shahar",
+      "phone": "Telefon raqami",
+      "description": "Tavsif",
+      "save": "Saqlash",
+      "saving": "Saqlanmoqda…",
+      "saved": "Profil saqlandi.",
+      "createProfile": "Profil yaratish",
+      "createFirst": "Paket qo'shish uchun yuqoridagi profilni saqlang.",
+      "invalidProfile": "Biznes nomi va shaharni kiriting.",
+      "tiers": "Paketlar va narxlar",
+      "addTier": "Paket qo'shish",
+      "noTiers": "Siz hali paket qo'shmagansiz.",
+      "tierName": "Paket nomi",
+      "price": "Narx",
+      "unit": "Birlik",
+      "tierDescription": "Tavsif",
+      "edit": "Tahrirlash",
+      "delete": "O'chirish",
+      "deleteConfirm": "Bu paket o'chirilsinmi?",
+      "editTier": "Paketni tahrirlash",
+      "newTier": "Yangi paket",
+      "saveTier": "Paketni saqlash",
+      "cancel": "Bekor qilish",
+      "tierSaved": "Paket saqlandi.",
+      "tierDeleted": "Paket o'chirildi.",
+      "invalidTier": "Nom va to'g'ri narx kiriting.",
+      "saveError": "Xatolik yuz berdi. Qayta urinib ko'ring.",
+      "tabProfile": "Profil",
+      "tabProducts": "Mahsulotlar",
+      "tabOrders": "Buyurtmalar",
+      "tierPhotos": "Tarif rasmlari"
+    },
+    "address": "Manzil",
+    "addressPlaceholder": "Ko'cha, tuman, shahar",
+    "photos": "Suratlar",
+    "photosHint": "Kamida 2 ta surat qo'shing",
+    "pendingApproval": "Yangi yoki tahrirlangan profillar jamoamiz tomonidan ko'rib chiqiladi va faqat administrator tasdiqlagandan so'ng juftliklarga ko'rinadi.",
+    "noVendors": "Hali tasdiqlangan sotuvchilar yo'q",
+    "comingSoon": "Biz ishonchli sotuvchilarni qo'shmoqdamiz. Tez orada qayta tekshiring.",
+    "gallery": "Galereya"
+  },
+  "dasturxon": {
+    "eyebrow": "Haqiqiy to'ylar, haqiqiy dasturxon",
+    "title": "Dasturxon taqqoslash",
+    "subtitle": "Boshqa yosh oilalar to'y dasturxoniga qancha sarflaganini va sizning rejangiz bilan qanday taqqoslanishini ko'ring.",
+    "shareCta": "Dasturxoningizni ulashing",
+    "shareCtaGuest": "Ulashish uchun kiring",
+    "dishes": {
+      "plov": "Osh (plov)",
+      "salads": "Salatlar",
+      "grilled_meats": "Shashlik",
+      "bread": "Non",
+      "appetizers": "Sovuq gazaklar",
+      "sweets": "Shirinliklar",
+      "fruit": "Mevalar",
+      "tea": "Choy",
+      "drinks": "Ichimliklar",
+      "dasturxon_spread": "Dasturxon"
+    },
+    "card": {
+      "headline": "{{city}}dagi to'y · {{count}} mehmon",
+      "totalSpend": "Taomga jami sarf",
+      "perGuest": "Har mehmonga",
+      "onTheTable": "Dasturxonda",
+      "andMore": "+yana {{count}} ta"
+    },
+    "filters": {
+      "city": "Shahar",
+      "allCities": "Barcha shaharlar",
+      "minGuests": "Eng kam mehmon",
+      "maxGuests": "Eng ko'p mehmon",
+      "any": "Har qanday",
+      "clear": "Tozalash"
+    },
+    "stats": {
+      "title": "{{scope}} bo'yicha o'rtacha",
+      "allCities": "barcha shaharlar",
+      "empty": "Hozircha bu yerda ommaviy to'ylar yo'q — birinchi bo'lib ulashing.",
+      "perGuest": "har mehmonga o'rtacha",
+      "avgTotal": "O'rtacha jami sarf",
+      "avgGuests": "O'rtacha mehmon",
+      "basedOn": "{{count}} ta ulashilgan to'y asosida"
+    },
+    "compare": {
+      "title": "Sizning dasturxoningiz va o'xshash to'ylar",
+      "noPlan": "O'xshash to'ylar bilan taqqoslash uchun byudjet reja tuzing.",
+      "planCta": "Byudjetni rejalash",
+      "yours": "Sizning rejangiz",
+      "similar": "O'xshash to'ylar",
+      "noSimilar": "Hali o'xshash to'ylar yetarli emas — keyinroq qayting.",
+      "range": "{{min}}–{{max}} mehmonli {{count}} ta to'y",
+      "avgPerGuest": "har mehmonga o'rtacha",
+      "inLine": "Taomga ajratgan byudjetingiz o'xshash to'ylarga mos.",
+      "above": "Siz har mehmonga o'xshash to'ylardan taxminan {{amount}} ko'proq rejalashtiryapsiz ({{pct}}% yuqori).",
+      "below": "Siz har mehmonga o'xshash to'ylardan taxminan {{amount}} kamroq rejalashtiryapsiz ({{pct}}% past).",
+      "commonItems": "O'xshash to'ylarda ko'p uchraydigan taomlar"
+    },
+    "mine": {
+      "title": "Sizning to'ylaringiz",
+      "public": "Ommaviy",
+      "private": "Shaxsiy"
+    },
+    "feed": {
+      "title": "To'ylarni ko'rish",
+      "empty": "Bu filtrlarga mos to'ylar topilmadi."
+    },
+    "submit": {
+      "title": "Dasturxoningizni ulashing",
+      "subtitle": "To'y dasturxoningiz qanday bo'lganini ulashib, boshqa yosh oilalarga yordam bering.",
+      "city": "Shahar",
+      "guestCount": "Mehmonlar soni",
+      "totalSpend": "Taomga jami sarf (so'm)",
+      "items": "Dasturxonda nima bo'lgan",
+      "itemName": "Taom",
+      "qty": "Soni",
+      "cost": "Narxi",
+      "removeItem": "Taomni o'chirish",
+      "addItem": "Taom qo'shish",
+      "makePublic": "Ommaviy ulashish",
+      "anonNote": "Ommaviy yozuvlar anonim — ismingiz ko'rsatilmaydi.",
+      "cancel": "Bekor qilish",
+      "share": "Ulashish",
+      "saving": "Ulashilmoqda…",
+      "success": "Dasturxoningizni ulashganingiz uchun rahmat!",
+      "error": "Ulashib bo'lmadi. Qayta urinib ko'ring.",
+      "invalid": "Mehmonlar soni, sarf va kamida bitta taom kiriting.",
+      "photos": "Suratlar",
+      "photosHint": "Ulashish uchun dasturxoningizning kamida 2 ta suratini qo'shing."
+    },
+    "gallery": "Suratlar galereyasi"
+  },
+  "marketplace": {
+    "eyebrow": "To'y mahsulotlari",
+    "subtitle": "Bazm uchun mahsulotlarni — idishlar, bezaklar va ijaralarni — aynan kerakli miqdorda buyurtma qiling.",
+    "cart": "Savat",
+    "cartTitle": "Sizning savatingiz",
+    "cartEmpty": "Savat bo'sh.",
+    "addToCart": "Qo'shish",
+    "inCart": "Savatda ({{count}})",
+    "perUnit": "{{unit}} uchun",
+    "total": "Jami",
+    "clearCart": "Savatni tozalash",
+    "remove": "O'chirish",
+    "decrease": "Kamaytirish",
+    "increase": "Ko'paytirish",
+    "checkoutSoon": "To'lov tez orada qo'shiladi — savat shu qurilmada saqlanadi.",
+    "empty": "Bu turkumda hozircha mahsulot yo'q.",
+    "categories": {
+      "all": "Barchasi",
+      "decor": "Bezaklar",
+      "disposable_tableware": "Bir martali idishlar",
+      "rental_items": "Ijara",
+      "gifts_sarpo": "Sovg'alar va sarpo",
+      "food_products": "Oziq-ovqat"
+    },
+    "outOfStock": "Sotuvda yo'q",
+    "inStock": "Mavjud: {{count}}",
+    "maxStock": "Eng ko'p miqdorga yetdingiz.",
+    "checkout": "Buyurtma berish",
+    "checkingOut": "Rasmiylashtirilmoqda…",
+    "loginToCheckout": "Buyurtma uchun tizimga kiring",
+    "checkoutSuccess": "Buyurtma qabul qilindi! {{count}} ta buyurtma yaratildi.",
+    "checkoutError": "Buyurtma berilmadi. Qaytadan urinib ko'ring."
+  },
+  "sufficiency": {
+    "eyebrow": "Yetarli bo'ladimi?",
+    "title": "Miqdor hisoblagich",
+    "subtitle": "Mehmonlar sonini va bazm davomiyligini kiriting — har bir taom va mahsulotdan qancha tayyorlash kerakligini tavsiya qilamiz, dasturxon bo'sh qolmasin.",
+    "form": {
+      "guestCount": "Mehmonlar soni",
+      "durationHours": "Bazm davomiyligi (soat)",
+      "categories": "Nimalar tortilyapti?",
+      "calculate": "Miqdorni hisoblash"
+    },
+    "units": {
+      "kg": "kg",
+      "piece": "dona",
+      "liter": "l",
+      "set": "to'plam"
+    },
+    "categories": {
+      "plov": {
+        "label": "Osh (palov)",
+        "note": "Har bir mehmonga taxminan 300 g tayyor palov — o'zbek dasturxonining markazi, doim saxovat bilan tortiladi."
+      },
+      "salads": {
+        "label": "Salatlar",
+        "note": "Har bir mehmonga turli salatlardan (achichuq, olivye va boshqalar) taxminan 150 g."
+      },
+      "meat": {
+        "label": "Go'shtli taomlar",
+        "note": "Har bir mehmonga taxminan 200 g — kabob, qovurilgan va qaynatilgan go'sht."
+      },
+      "bread": {
+        "label": "Non",
+        "note": "Har bir mehmonga taxminan yarim non — to'yda non hech qachon kam bo'lmaydi."
+      },
+      "fruit": {
+        "label": "Mevalar",
+        "note": "Har bir mehmonga taxminan 200 g mavsumiy meva."
+      },
+      "sweets": {
+        "label": "Shirinliklar",
+        "note": "Har bir mehmonga taxminan 150 g — shirinlik, pishiriq va tortlar."
+      },
+      "drinks": {
+        "label": "Ichimliklar va choy",
+        "note": "Har bir mehmonga taxminan 0,5 l, uzoq bazmlarda ko'proq."
+      },
+      "tableware": {
+        "label": "Bir martalik idishlar",
+        "note": "Har bir mehmonga bitta to'liq to'plam — likop, stakan va qoshiq-vilka, zaxira bilan."
+      }
+    },
+    "results": {
+      "bufferTitle": "{{percent}}% zaxira bilan",
+      "bufferBody": "Bu kichik zaxira — mehmonlar yaqinlarini olib kelsa yoki kutilganidan ko'proq yesa, yetmay qolmaslik uchun.",
+      "rangeNote": "kamida: {{strict}}",
+      "durationBadge": "Davomiylikka bog'liq",
+      "buyLine": "{{name}} — tavsiya etilgan miqdor uchun {{total}}",
+      "buyButton": "Tavsiya etilgan miqdorni sotib olish",
+      "outOfStock": "Omborda yetarli emas",
+      "addedTitle": "Savatga qo'shildi",
+      "addedBody": "{{quantity}} × {{name}} savatga qo'shildi.",
+      "footerNote": "Buyurtma berishga tayyormisiz?",
+      "viewCart": "Bozorni ochish",
+      "error": "Miqdorni hisoblashda xatolik yuz berdi. Qayta urinib ko'ring."
+    }
+  },
+  "organizer": {
+    "title": "Tashkilotchi paneli",
+    "subtitle": "Juftliklaringiz, ularning byudjeti va hali hal qilinmagan narsalarni kuzating.",
+    "notOrganizer": "Bu panel faqat tashkilotchi hisoblari uchun mavjud.",
+    "noDate": "Sana belgilanmagan",
+    "linked": "Bog'langan",
+    "manual": "Qo'lda",
+    "pendingCount": "{{count}} ta kutilmoqda",
+    "inDays": "{{count}} kundan keyin",
+    "noClients": "Hozircha mijozlar yo'q. Boshlash uchun birinchi mijozni qo'shing.",
+    "noUpcoming": "Keyingi 30 kun ichida to'ylar yo'q.",
+    "upcomingTitle": "Yaqinlashayotgan to'ylar",
+    "upcomingSubtitle": "Keyingi 30 kundagi to'ylar, bog'lanish uchun ustuvor.",
+    "clientsTitle": "Mijozlar",
+    "clientsSubtitle": "Siz rejalashtirayotgan barcha juftliklar.",
+    "stats": {
+      "totalClients": "Jami mijozlar",
+      "upcoming": "Yaqin (30 kun)",
+      "unresolved": "Hal qilinmagan mijozlar"
+    },
+    "table": {
+      "client": "Mijoz",
+      "weddingDate": "To'y sanasi",
+      "status": "Holat",
+      "budget": "Byudjet",
+      "undecided": "Hal qilinmagan",
+      "pending": "Kutilmoqda"
+    },
+    "statuses": {
+      "active": "Faol",
+      "planning": "Rejalashtirilmoqda",
+      "confirmed": "Tasdiqlangan"
+    },
+    "add": {
+      "button": "Mijoz qo'shish",
+      "title": "Mijoz qo'shish",
+      "subtitle": "Juftlik Bazm'da bo'lmasa ham uni kuzating.",
+      "clientName": "Mijoz ismi",
+      "clientNamePlaceholder": "masalan, Aziz va Malika",
+      "weddingDate": "To'y sanasi (ixtiyoriy)",
+      "notes": "Izohlar (ixtiyoriy)",
+      "cancel": "Bekor qilish",
+      "save": "Mijoz qo'shish",
+      "saving": "Qo'shilmoqda...",
+      "success": "Mijoz qo'shildi",
+      "error": "Mijozni qo'shib bo'lmadi",
+      "nameRequired": "Mijoz ismini kiriting",
+      "shareToken": "Byudjet rejasi havolasi/tokeni (ixtiyoriy)",
+      "shareTokenPlaceholder": "Juftlikning havolasi yoki tokenini joylashtiring",
+      "shareTokenHint": "Agar juftlik byudjet rejasi havolasini bergan bo'lsa, rejani bog'lash uchun uni shu yerga joylashtiring. Faqat ular ulasha oladi."
+    },
+    "detail": {
+      "back": "Panelga qaytish",
+      "notFound": "Mijoz topilmadi.",
+      "planTitle": "Byudjet rejasi",
+      "city": "Shahar",
+      "guests": "Mehmonlar",
+      "estimatedTotal": "Taxminiy jami",
+      "undecidedTotal": "Hal qilinmagan",
+      "progress": "Qabul qilingan qarorlar",
+      "decidedOf": "{{total}} tadan {{decided}} tasi hal qilindi",
+      "chosenTitle": "Tanlangan yetkazib beruvchilar",
+      "noChosen": "Hali yetkazib beruvchilar tanlanmagan.",
+      "vendorUnknown": "Yetkazib beruvchi ko'rsatilmagan",
+      "pendingTitle": "Hal qilinmagan qarorlar",
+      "noPending": "Hammasi hal qilingan.",
+      "estimate": "Tax.",
+      "noPlanLinked": "Bu juftlik hali byudjet rejasini ulashmagan.",
+      "noPlanManual": "Bu mijoz Bazm hisobiga bog'lanmagan, shuning uchun byudjet rejasi yo'q."
+    }
+  },
+  "orders": {
+    "eyebrow": "Xaridlaringiz",
+    "title": "Buyurtmalarim",
+    "empty": "Hozircha buyurtmalaringiz yo'q.",
+    "browseMarketplace": "Do'konni ko'rish",
+    "orderNumber": "Buyurtma №{{id}}",
+    "cancel": "Bekor qilish",
+    "cancelConfirm": "Ushbu buyurtma bekor qilinsinmi? Mahsulotlar omborga qaytariladi.",
+    "cancelled": "Buyurtma bekor qilindi.",
+    "cancelError": "Faqat kutilayotgan buyurtmalarni bekor qilish mumkin.",
+    "status": {
+      "pending": "Kutilmoqda",
+      "confirmed": "Tasdiqlangan",
+      "fulfilled": "Bajarilgan",
+      "cancelled": "Bekor qilingan"
+    }
+  },
+  "seller": {
+    "products": {
+      "title": "Mahsulotlarim",
+      "add": "Mahsulot qo'shish",
+      "addTitle": "Mahsulot qo'shish",
+      "editTitle": "Mahsulotni tahrirlash",
+      "name": "Nomi",
+      "category": "Toifa",
+      "price": "Birlik narxi",
+      "unit": "Birlik",
+      "unitPlaceholder": "masalan, dona, to'plam, kg",
+      "stock": "Qoldiq",
+      "status": "Holat",
+      "description": "Tavsif",
+      "photos": "Foto havolalari",
+      "photosPlaceholder": "https://…",
+      "photosHint": "Har bir havola alohida qatorda. Birinchi rasm kartochkada ko'rsatiladi.",
+      "active": "Faol",
+      "activeHint": "Faol bo'lmagan mahsulotlar do'konda ko'rinmaydi.",
+      "activeLabel": "Faol",
+      "inactiveLabel": "Yashirilgan",
+      "save": "Saqlash",
+      "saving": "Saqlanmoqda…",
+      "edit": "Tahrirlash",
+      "empty": "Hali mahsulot qo'shmagansiz.",
+      "created": "Mahsulot yaratildi.",
+      "updated": "Mahsulot yangilandi.",
+      "saveError": "Mahsulotni saqlab bo'lmadi.",
+      "invalid": "Barcha majburiy maydonlarni to'ldiring."
+    },
+    "orders": {
+      "title": "Kelayotgan buyurtmalar",
+      "empty": "Hozircha buyurtmalar yo'q.",
+      "statusUpdated": "Buyurtma holati yangilandi.",
+      "statusError": "Buyurtmani yangilab bo'lmadi."
+    }
+  },
+  "empty": {
+    "plansDesc": "Birinchi byudjet rejangizni yarating — har bir so'mni eng muhim narsalarga taqsimlaymiz.",
+    "vendorsDesc": "Filtrlarni kengaytiring yoki boshqa toifani ko'rib chiqing.",
+    "dasturxonDesc": "Bu filtrlarga mos to'ylar hali yo'q. Ularni o'zgartiring yoki birinchi bo'lib haqiqiy dasturxonni ulashing.",
+    "dasturxonCta": "Dasturxoningizni ulashing",
+    "cartDesc": "Yoqtirgan bezaklar, idishlar va sovg'alarni qo'shing — ular shu yerda ko'rinadi.",
+    "cartCta": "Bozorni ko'rish",
+    "productsDesc": "Bu toifada hali mahsulot yo'q. Keyinroq qayting yoki barcha mahsulotlarni ko'ring.",
+    "ordersDesc": "Bozordan buyurtma bersangiz, buyurtmalaringiz shu yerda ko'rinadi.",
+    "sellerProductsDesc": "To'yga tayyorlanayotgan juftliklarga sotishni boshlash uchun birinchi mahsulotingizni qo'shing.",
+    "sellerOrdersDesc": "Juftliklardan kelgan buyurtmalar xarid qilingandan so'ng shu yerda ko'rinadi.",
+    "comparisonDesc": "Ko'proq to'plamlarni solishtirish uchun filtrlarni o'zgartiring."
+  },
+  "upload": {
+    "add": "Rasm qo'shish",
+    "uploading": "Yuklanmoqda…",
+    "remove": "Rasmni o'chirish",
+    "cover": "Muqova",
+    "hint": "{{max}} tagacha rasm. JPG yoki PNG, har biri 5 MB gacha. Birinchi rasm muqova bo'ladi.",
+    "error": "Yuklab bo'lmadi. Qaytadan urinib ko'ring.",
+    "notImage": "Faqat rasm fayllari ruxsat etiladi.",
+    "tooLarge": "Rasm juda katta (maksimal 5 MB)."
+  },
+  "landing": {
+    "badge": "O'zbekistonda to'y rejalashtirish platformasi",
+    "heroSubtitle": "Birinchi byudjetdan so'nggi gulchambargacha — Bazm ishonchli xizmat ko'rsatuvchilar, shaffof narxlar va to'yingizning har bir tafsilotini bitta xotirjam va chiroyli joyda birlashtiradi.",
+    "heroSecondary": "Xizmatlarni ko'rish",
+    "stats": {
+      "categories": {
+        "value": "8",
+        "label": "Xizmat toifasi"
+      },
+      "pricing": {
+        "value": "100%",
+        "label": "Shaffof narxlar"
+      },
+      "fees": {
+        "value": "0",
+        "label": "Yashirin to'lov"
+      },
+      "anytime": {
+        "value": "24/7",
+        "label": "Istalgan vaqtda"
+      }
+    },
+    "how": {
+      "title": "To'yingizni uch xotirjam qadamda rejalang",
+      "subtitle": "Jadvalsiz, taxminsiz, bosimsiz.",
+      "step1": {
+        "title": "Byudjetni belgilang",
+        "desc": "Mehmonlar soni va byudjetingizni kiriting. Bazm uni to'yxona, katering, bezak va boshqalarga avtomatik taqsimlaydi."
+      },
+      "step2": {
+        "title": "Xizmatlarni solishtiring",
+        "desc": "Tekshirilgan xizmatlar va dasturxon takliflarini haqiqiy rasm va narxlar bilan yonma-yon ko'ring."
+      },
+      "step3": {
+        "title": "Ishonch bilan buyurtma bering",
+        "desc": "Yoqqanini band qiling, har bir buyurtmani kuzating va butun tantanangizni bir joyda saqlang."
+      }
+    },
+    "categories": {
+      "title": "Tantanangizning har bir qismi uchun",
+      "subtitle": "To'yingizga kerakli barcha toifalarda tekshirilgan xizmatlar.",
+      "venue": "To'yxonalar",
+      "catering": "Katering",
+      "decor": "Bezak",
+      "music": "Musiqa va shou",
+      "photography": "Fotografiya",
+      "clothing": "Liboslar",
+      "cta": "Bozorni ochish"
+    },
+    "values": {
+      "title": "Nega juftliklar Bazmni tanlaydi",
+      "v1": {
+        "title": "Shaffof narxlar",
+        "desc": "Haqiqiy xizmatlardan haqiqiy narxlar. Takliflarni yonma-yon solishtiring — yashirin to'lovlarsiz."
+      },
+      "v2": {
+        "title": "Oila bosimisiz",
+        "desc": "O'zingiz xohlagan to'yni rejalang. O'z byudjetingiz, o'z tanlovingiz, o'z sur'atingiz."
+      },
+      "v3": {
+        "title": "Tekshirilgan xizmatlar",
+        "desc": "Har bir xizmat ko'rib chiqilgan, shuning uchun ishonch bilan buyurtma bering."
+      },
+      "v4": {
+        "title": "O'z tilingizda",
+        "desc": "To'liq O'zbek, Русский va English tillarida mavjud."
+      }
+    },
+    "sellers": {
+      "badge": "Xizmat ko'rsatuvchilar uchun",
+      "title": "Bazm bilan to'y biznesingizni rivojlantiring",
+      "desc": "Xizmatlaringizni joylang, haqiqiy rasmlarni ko'rsating va to'yini rejalayotgan juftliklarga yeting — bepul qo'shiling.",
+      "cta": "Xizmat ko'rsatuvchi bo'lish"
+    },
+    "finalTitle": "To'yingiz — chiroyli va tartibli.",
+    "finalSubtitle": "O'zbekiston bo'ylab xotirjamroq, aniqroq va quvonchliroq to'y rejalayotgan juftliklarga qo'shiling."
+  }
+}

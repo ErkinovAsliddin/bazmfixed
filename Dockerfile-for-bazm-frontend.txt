@@ -1,0 +1,31 @@
+# Build from the repo root:
+#   docker build -f artifacts/bazm/Dockerfile -t bazm-web .
+#
+# Needs the whole monorepo as build context — same reason as the API
+# Dockerfile (pnpm workspace, "workspace:*" deps like @workspace/api-client-react).
+
+FROM node:22-slim AS base
+RUN corepack enable && corepack prepare pnpm@11.13.1 --activate
+WORKDIR /app
+
+FROM base AS deps
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json tsconfig.json ./
+COPY lib ./lib
+COPY artifacts/bazm ./artifacts/bazm
+COPY attached_assets ./attached_assets
+RUN pnpm install --frozen-lockfile
+
+# ---- build: static production bundle ----
+# BASE_PATH=/ assumes the site is served from the domain root (see nginx.conf).
+# PORT is only required by vite.config.ts's own validation; it's unused for
+# a production `vite build` (no dev server is started) but must be set.
+FROM deps AS build
+ENV BASE_PATH=/
+ENV PORT=5173
+RUN pnpm --filter @workspace/bazm run build
+
+# ---- runtime: Nginx serving the static build + proxying /api ----
+FROM nginx:1.27-alpine AS runtime
+COPY --from=build /app/artifacts/bazm/dist/public /usr/share/nginx/html
+COPY artifacts/bazm/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
